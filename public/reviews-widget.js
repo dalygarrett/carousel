@@ -7,61 +7,61 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Your existing JavaScript code goes here...
 
-    function initWidget(config) {
-        // Extract the entity ID from the configuration
-        const entityId = config.entityId;
-        const baseUrl = config.baseUrl;
+function initWidget(config) {
+    // Extract the entity ID from the configuration
+    const entityId = config.entityId;
+    const baseUrl = config.baseUrl;
 
-        console.log("Entity Id :", entityId);
-        console.log("Base URL :", baseUrl);
+    console.log("Entity Id :", entityId);
+    console.log("Base URL :", baseUrl);
 
-        // Make the first API call to retrieve entity details
-        fetchEntityDetails(baseUrl, entityId)
-            .then((entityDetails) => {
-                console.log("Entity Details:", entityDetails);
+    // Make the first API call to retrieve entity details
+    fetchEntityDetails(baseUrl, entityId)
+        .then((entityDetails) => {
+            console.log("Entity Details:", entityDetails);
 
-                // Store review generation URLs
-                reviewGenerationUrl = entityDetails.reviewGenerationUrl;
-                firstPartyReviewPage = entityDetails.firstPartyReviewPage;
+            // Store review generation URLs
+            reviewGenerationUrl = entityDetails.reviewGenerationUrl;
+            firstPartyReviewPage = entityDetails.firstPartyReviewPage;
 
-                // Extract entity name
-                entityName = entityDetails.name;
+            // Extract entity name
+            entityName = entityDetails.name;
 
-                // Make the second API call to retrieve reviews using the obtained entity ID
-                return fetchReviews(baseUrl, entityId);
-            })
-            .then((fetchedReviews) => {
-                console.log("Reviews:", fetchedReviews);
+            // Make the second API call to retrieve reviews using the obtained entity ID
+            return fetchReviews(baseUrl, entityId);
+        })
+        .then((fetchedReviews) => {
+            console.log("Reviews:", fetchedReviews);
 
-                // Update the reviews variable with the fetched reviews
-                reviews = fetchedReviews;
+            // Update the reviews variable with the fetched reviews
+            reviews = fetchedReviews;
 
-                // Extract review details
-                const reviewDetails = reviews.map((review) => ({
-                    authorName: review.authorName,
-                    content: review.content,
-                    publisher: review.publisher,
-                    rating: review.rating,
-                    reviewDate: review.reviewDate,
-                    comments: review.comments,
-                }));
+            // Extract review details
+            const reviewDetails = reviews.map((review) => ({
+                authorName: review.authorName,
+                content: review.content,
+                publisher: review.publisher,
+                rating: review.rating,
+                reviewDate: review.reviewDate,
+                comments: review.comments,
+            }));
 
-                // Calculate the average rating
-                const totalRating = reviewDetails.reduce((sum, review) => sum + review.rating, 0);
-                averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
+            // Calculate the average rating
+            const totalRating = reviewDetails.reduce((sum, review) => sum + review.rating, 0);
+            averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
 
-                // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
-                console.log("Review Generation URL:", reviewGenerationUrl);
-                console.log("First Party Review Page:", firstPartyReviewPage);
-                console.log("Average Rating:", averageRating);
+            // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
+            console.log("Review Generation URL:", reviewGenerationUrl);
+            console.log("First Party Review Page:", firstPartyReviewPage);
+            console.log("Average Rating:", averageRating);
 
-                // Display paginated reviews
-                displayReviews();
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }
+            // Display paginated reviews
+            displayReviews();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
 
     function displayReviews() {
         // Display total count and average rating
