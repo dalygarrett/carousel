@@ -1,4 +1,8 @@
 let currentReviewIndex = 0; // Track the index of the current review being displayed
+let averageRating;
+let entityName;
+let reviews = []; // Declare reviews in the outer scope
+
 
 function initWidget(config) {
     // Extract the entity ID from the configuration
