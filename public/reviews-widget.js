@@ -1,5 +1,63 @@
 let currentReviewIndex = 0; // Track the index of the current review being displayed
 
+function initWidget(config) {
+    // Extract the entity ID from the configuration
+    const entityId = config.entityId;
+    const baseUrl = config.baseUrl;
+    // const entityId = script_tag.getAttribute('entityId');
+
+    console.log("Entity Id :", entityId);
+    console.log("Base URL :", baseUrl);
+
+    // Make the first API call to retrieve entity details
+    fetchEntityDetails(baseUrl, entityId)
+        .then((entityDetails) => {
+            console.log("Entity Details:", entityDetails);
+
+            // Store review generation URLs
+            reviewGenerationUrl = entityDetails.reviewGenerationUrl;
+            firstPartyReviewPage = entityDetails.firstPartyReviewPage;
+
+            // Extract entity name
+            entityName = entityDetails.name;
+
+            // Make the second API call to retrieve reviews using the obtained entity ID
+            return fetchReviews(baseUrl, entityId);
+        })
+        .then((fetchedReviews) => {
+            console.log("Reviews:", fetchedReviews);
+
+            // Update the reviews variable with the fetched reviews
+            reviews = fetchedReviews;
+
+            // Extract review details
+            const reviewDetails = reviews.map((review) => ({
+                authorName: review.authorName,
+                content: review.content,
+                publisher: review.publisher,
+                rating: review.rating,
+                reviewDate: review.reviewDate,
+                comments: review.comments,
+            }));
+
+            // Calculate the average rating
+            const totalRating = reviewDetails.reduce((sum, review) => sum + review.rating, 0);
+            averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
+
+            // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
+            console.log("Review Generation URL:", reviewGenerationUrl);
+            console.log("First Party Review Page:", firstPartyReviewPage);
+            console.log("Average Rating:", averageRating);
+
+            // Display paginated reviews
+            displayReviews();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
+
+
 function displayReviews() {
     // Display total count and average rating
     // Display total count and average rating
