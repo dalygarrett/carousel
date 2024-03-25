@@ -68,42 +68,15 @@ function initWidget(config) {
 }
 
 function displayReviews() {
-
-    // Sort reviews by reviewDate in descending order (most recent first)
-    reviews.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
-
-    // Display total count and average rating
-    // Display total count and average rating
-    const averageRatingElement = document.getElementById("average-rating");
-    const starIconsElement = document.getElementById("star-icons");
-    const totalCountElement = document.getElementById("total-count");
     const reviewsContainer = document.getElementById("reviews-container");
     const paginationContainer = document.getElementById("pagination-container");
 
-    if (!averageRatingElement || !starIconsElement || !totalCountElement) {
-        console.error("One or more elements not found.");
-        return;
-    }
-    
     if (!Array.isArray(reviews) || reviews.length === 0) {
-        totalCountElement.innerHTML = "<h2>Be the first to leave a review!</h2>";
-        averageRatingElement.textContent = "";
-        starIconsElement.innerHTML = "";
-        reviewsContainer.innerHTML = ""; // Clear reviews container
+        reviewsContainer.innerHTML = "<h2>Be the first to leave a review!</h2>";
         paginationContainer.innerHTML = ""; // Clear pagination container
         return;
     }
 
-    // Calculate the average rating
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-    averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-
-    // Display total count and average rating
-    totalCountElement.textContent = `Total Reviews: ${reviews.length}`;
-    averageRatingElement.innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)}</h1>`;
-    starIconsElement.innerHTML = getStarIcons(averageRating);
-
-    // Display paginated reviews
     const reviewsPerPage = 5;
     const totalPages = Math.ceil(reviews.length / reviewsPerPage);
 
@@ -129,7 +102,6 @@ function displayReviews() {
             button.classList.add('active');
         }
     }
-
 }
 
 function paginate(currentPage, reviewsPerPage) {
