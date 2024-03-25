@@ -1,67 +1,64 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Add your JavaScript code here
     let currentReviewIndex = 0; // Track the index of the current review being displayed
     let averageRating;
     let entityName;
     let reviews = []; // Declare reviews in the outer scope
 
-    // Your existing JavaScript code goes here...
+    function initWidget(config) {
+        // Extract the entity ID from the configuration
+        const entityId = config.entityId;
+        const baseUrl = config.baseUrl;
 
-function initWidget(config) {
-    // Extract the entity ID from the configuration
-    const entityId = config.entityId;
-    const baseUrl = config.baseUrl;
+        console.log("Entity Id :", entityId);
+        console.log("Base URL :", baseUrl);
 
-    console.log("Entity Id :", entityId);
-    console.log("Base URL :", baseUrl);
+        // Make the first API call to retrieve entity details
+        fetchEntityDetails(baseUrl, entityId)
+            .then((entityDetails) => {
+                console.log("Entity Details:", entityDetails);
 
-    // Make the first API call to retrieve entity details
-    fetchEntityDetails(baseUrl, entityId)
-        .then((entityDetails) => {
-            console.log("Entity Details:", entityDetails);
+                // Store review generation URLs
+                reviewGenerationUrl = entityDetails.reviewGenerationUrl;
+                firstPartyReviewPage = entityDetails.firstPartyReviewPage;
 
-            // Store review generation URLs
-            reviewGenerationUrl = entityDetails.reviewGenerationUrl;
-            firstPartyReviewPage = entityDetails.firstPartyReviewPage;
+                // Extract entity name
+                entityName = entityDetails.name;
 
-            // Extract entity name
-            entityName = entityDetails.name;
+                // Make the second API call to retrieve reviews using the obtained entity ID
+                return fetchReviews(baseUrl, entityId);
+            })
+            .then((fetchedReviews) => {
+                console.log("Reviews:", fetchedReviews);
 
-            // Make the second API call to retrieve reviews using the obtained entity ID
-            return fetchReviews(baseUrl, entityId);
-        })
-        .then((fetchedReviews) => {
-            console.log("Reviews:", fetchedReviews);
+                // Update the reviews variable with the fetched reviews
+                reviews = fetchedReviews;
 
-            // Update the reviews variable with the fetched reviews
-            reviews = fetchedReviews;
+                // Extract review details
+                const reviewDetails = reviews.map((review) => ({
+                    authorName: review.authorName,
+                    content: review.content,
+                    publisher: review.publisher,
+                    rating: review.rating,
+                    reviewDate: review.reviewDate,
+                    comments: review.comments,
+                }));
 
-            // Extract review details
-            const reviewDetails = reviews.map((review) => ({
-                authorName: review.authorName,
-                content: review.content,
-                publisher: review.publisher,
-                rating: review.rating,
-                reviewDate: review.reviewDate,
-                comments: review.comments,
-            }));
+                // Calculate the average rating
+                const totalRating = reviewDetails.reduce((sum, review) => sum + review.rating, 0);
+                averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
 
-            // Calculate the average rating
-            const totalRating = reviewDetails.reduce((sum, review) => sum + review.rating, 0);
-            averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
+                // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
+                console.log("Review Generation URL:", reviewGenerationUrl);
+                console.log("First Party Review Page:", firstPartyReviewPage);
+                console.log("Average Rating:", averageRating);
 
-            // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
-            console.log("Review Generation URL:", reviewGenerationUrl);
-            console.log("First Party Review Page:", firstPartyReviewPage);
-            console.log("Average Rating:", averageRating);
-
-            // Display paginated reviews
-            displayReviews();
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-}
+                // Display paginated reviews
+                displayReviews();
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
 
     function displayReviews() {
         // Display total count and average rating
@@ -98,66 +95,65 @@ function initWidget(config) {
         paginationContainer.innerHTML = ""; // Clear pagination container
     }
 
-function createReviewElement(review) {
-    const reviewElement = document.createElement('div');
-    reviewElement.classList.add('review');
+    function createReviewElement(review) {
+        const reviewElement = document.createElement('div');
+        reviewElement.classList.add('review');
 
-    // Determine the publisher icon based on the publisher value
-    let publisherIcon = '';
-    switch (review.publisher) {
-        case 'GOOGLEMYBUSINESS':
-            publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-250.svg';
-            break;
-        case 'FIRSTPARTY':
-            publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-283.svg';
-            break;
-        case 'FACEBOOK':
-            publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-71.svg';
-            break;
-        // Add more cases for other publishers if needed
-        default:
-            publisherIcon = ''; // Default to empty if no matching publisher
-    }
+        // Determine the publisher icon based on the publisher value
+        let publisherIcon = '';
+        switch (review.publisher) {
+            case 'GOOGLEMYBUSINESS':
+                publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-250.svg';
+                break;
+            case 'FIRSTPARTY':
+                publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-283.svg';
+                break;
+            case 'FACEBOOK':
+                publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-71.svg';
+                break;
+            // Add more cases for other publishers if needed
+            default:
+                publisherIcon = ''; // Default to empty if no matching publisher
+        }
 
-    const formattedReviewDate = review.reviewDate
-        ? new Date(review.reviewDate).toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-          })
-        : 'Date Not Available';
+        const formattedReviewDate = review.reviewDate
+            ? new Date(review.reviewDate).toLocaleString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+              })
+            : 'Date Not Available';
 
-    reviewElement.innerHTML = `
-        <div class="review-details">
-            <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
-            <div class="details-right">
-                <p><strong>Date:</strong> ${formattedReviewDate}</p>
-                <p><strong>Author:</strong> ${review.authorName}</p>
-                <p><strong>Rating:</strong> ${getStarIcons(review.rating, review.publisher)}</p>
-                ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
+        reviewElement.innerHTML = `
+            <div class="review-details">
+                <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
+                <div class="details-right">
+                    <p><strong>Date:</strong> ${formattedReviewDate}</p>
+                    <p><strong>Author:</strong> ${review.authorName}</p>
+                    <p><strong>Rating:</strong> ${getStarIcons(review.rating, review.publisher)}</p>
+                    ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
+                </div>
             </div>
-        </div>
-    `;
+        `;
 
-    const commentElement = createCommentHTML(review.comments, entityName);
-    if (commentElement) {
-        reviewElement.appendChild(commentElement);
+        const commentElement = createCommentHTML(review.comments, entityName);
+        if (commentElement) {
+            reviewElement.appendChild(commentElement);
+        }
+
+        return reviewElement;
     }
 
-    return reviewElement;
-}
+    function nextReview() {
+        currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
+        displayReviews();
+    }
 
-function nextReview() {
-    currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
-    displayReviews();
-}
+    function previousReview() {
+        currentReviewIndex = (currentReviewIndex - 1 + reviews.length) % reviews.length;
+        displayReviews();
+    }
 
-function previousReview() {
-    currentReviewIndex = (currentReviewIndex - 1 + reviews.length) % reviews.length;
-    displayReviews();
-}
-
-document.addEventListener('DOMContentLoaded', function () {
     // Display reviews initially
     displayReviews();
 
