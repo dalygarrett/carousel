@@ -74,12 +74,17 @@ function displayReviews() {
 
     // Display total count and average rating
     // Display total count and average rating
-    const totalCountElement = document.getElementById("total-count");
     const averageRatingElement = document.getElementById("average-rating");
     const starIconsElement = document.getElementById("star-icons");
+    const totalCountElement = document.getElementById("total-count");
     const reviewsContainer = document.getElementById("reviews-container");
     const paginationContainer = document.getElementById("pagination-container");
 
+    if (!averageRatingElement || !starIconsElement || !totalCountElement) {
+        console.error("One or more elements not found.");
+        return;
+    }
+    
     if (!Array.isArray(reviews) || reviews.length === 0) {
         totalCountElement.innerHTML = "<h2>Be the first to leave a review!</h2>";
         averageRatingElement.textContent = "";
