@@ -1,81 +1,108 @@
-// reviews-widget.js
+let currentReviewIndex = 0; // Track the index of the current review being displayed
 
-let reviews = []; // Declare reviews in the outer scope
-let currentIndex = 0;
-
-function initWidget(config) {
-    const baseUrl = config.baseUrl;
-    const entityId = config.entityId;
-
-    fetchReviews(baseUrl, entityId)
-        .then((fetchedReviews) => {
-            reviews = fetchedReviews;
-            displayNextReview();
-        })
-        .catch((error) => {
-            console.error("Error fetching reviews:", error);
-        });
-}
-
-function displayNextReview() {
-    const carouselContainer = document.getElementById("review-carousel");
-    carouselContainer.innerHTML = ""; // Clear carousel container
+function displayReviews() {
+    // Display total count and average rating
+    // Display total count and average rating
+    const totalCountElement = document.getElementById("total-count");
+    const averageRatingElement = document.getElementById("average-rating");
+    const starIconsElement = document.getElementById("star-icons");
+    const reviewsContainer = document.getElementById("reviews-container");
+    const paginationContainer = document.getElementById("pagination-container");
 
     if (!Array.isArray(reviews) || reviews.length === 0) {
-        carouselContainer.textContent = "No reviews available.";
+        totalCountElement.innerHTML = "<h2>Be the first to leave a review!</h2>";
+        averageRatingElement.textContent = "";
+        starIconsElement.innerHTML = "";
+        reviewsContainer.innerHTML = ""; // Clear reviews container
+        paginationContainer.innerHTML = ""; // Clear pagination container
         return;
     }
 
-    const review = reviews[currentIndex];
-    const reviewElement = createReviewElement(review);
-    carouselContainer.appendChild(reviewElement);
+    // Calculate the average rating
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
 
-    currentIndex = (currentIndex + 1) % reviews.length; // Cycle through reviews
+    // Display total count and average rating
+    totalCountElement.textContent = `Total Reviews: ${reviews.length}`;
+    averageRatingElement.textContent = `Average Rating: ${averageRating.toFixed(2)}`;
+    starIconsElement.innerHTML = getStarIcons(averageRating);
 
-    setTimeout(displayNextReview, 5000); // Display next review after 5 seconds
+    // Display carousel reviews
+    reviewsContainer.innerHTML = ""; // Clear reviews container
+    const reviewElement = createReviewElement(reviews[currentReviewIndex]);
+    reviewsContainer.appendChild(reviewElement);
+
+    // Display pagination controls (if needed)
+    paginationContainer.innerHTML = ""; // Clear pagination container
 }
 
 function createReviewElement(review) {
     const reviewElement = document.createElement('div');
     reviewElement.classList.add('review');
+
+    // Determine the publisher icon based on the publisher value
+    let publisherIcon = '';
+    switch (review.publisher) {
+        case 'GOOGLEMYBUSINESS':
+            publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-250.svg';
+            break;
+        case 'FIRSTPARTY':
+            publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-283.svg';
+            break;
+        case 'FACEBOOK':
+            publisherIcon = 'https://www.yext-static.com/cms/spark/1/site-icon-71.svg';
+            break;
+        // Add more cases for other publishers if needed
+        default:
+            publisherIcon = ''; // Default to empty if no matching publisher
+    }
+
+    const formattedReviewDate = review.reviewDate
+        ? new Date(review.reviewDate).toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+          })
+        : 'Date Not Available';
+
     reviewElement.innerHTML = `
         <div class="review-details">
-            <p><strong>Date:</strong> ${formatDate(review.reviewDate)}</p>
-            <p><strong>Author:</strong> ${review.authorName}</p>
-            <p><strong>Rating:</strong> ${getStarIcons(review.rating, review.publisher)}</p>
-            ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
+            <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
+            <div class="details-right">
+                <p><strong>Date:</strong> ${formattedReviewDate}</p>
+                <p><strong>Author:</strong> ${review.authorName}</p>
+                <p><strong>Rating:</strong> ${getStarIcons(review.rating, review.publisher)}</p>
+                ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
+            </div>
         </div>
     `;
+
+    const commentElement = createCommentHTML(review.comments, entityName);
+    if (commentElement) {
+        reviewElement.appendChild(commentElement);
+    }
+
     return reviewElement;
 }
 
-function getStarIcons(rating, publisher) {
-    // Function to get star icons based on rating
+function nextReview() {
+    currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
+    displayReviews();
 }
 
-function formatDate(dateString) {
-    // Function to format date
+function previousReview() {
+    currentReviewIndex = (currentReviewIndex - 1 + reviews.length) % reviews.length;
+    displayReviews();
 }
 
-async function fetchReviews(baseUrl, entityId) {
-    const apiUrl = `${baseUrl}entity/${entityId}/reviews`;
+document.addEventListener('DOMContentLoaded', function () {
+    // Display reviews initially
+    displayReviews();
 
-    try {
-        const response = await fetch(apiUrl);
+    // Add event listeners for carousel navigation
+    const nextButton = document.getElementById('next-button');
+    nextButton.addEventListener('click', nextReview);
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch reviews: ${response.statusText}`);
-        }
-
-        const reviews = await response.json();
-
-        // Check if the response or docs property is undefined or null
-        const docs = reviews?.response?.docs;
-
-        // If docs is undefined or null or an empty array, return an empty array
-        return Array.isArray(docs) ? docs : [];
-    } catch (error) {
-        console.error('Error fetching reviews:', error);
-        throw error;
-    }
-}
+    const prevButton = document.getElementById('prev-button');
+    prevButton.addEventListener('click', previousReview);
+});
