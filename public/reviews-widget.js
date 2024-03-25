@@ -145,6 +145,8 @@ function paginate(currentPage, reviewsPerPage) {
     paginationButtons[currentPage - 1].classList.add('active');
 }
 
+
+
 function updatePaginationControls(totalPages) {
     const paginationContainer = document.getElementById('pagination-container');
     
@@ -432,6 +434,83 @@ async function submitForm() {
         alert('Error submitting form. Please try again.');
     }
 }
+
+function displayReviewsCarousel() {
+    // Sort reviews by reviewDate in descending order (most recent first)
+    reviews.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
+
+    // Display reviews carousel
+    const carouselContainer = document.getElementById("review-carousel");
+    carouselContainer.innerHTML = ""; // Clear carousel container
+
+    // Display the most recent 10 reviews in the carousel
+    const recentReviews = reviews.slice(0, 10);
+    recentReviews.forEach(review => {
+        const reviewElement = createReviewElement(review);
+        carouselContainer.appendChild(reviewElement);
+    });
+
+    // Initialize carousel functionality
+    initCarousel();
+}
+
+function createReviewElement(review) {
+    const reviewElement = document.createElement('div');
+    reviewElement.classList.add('review');
+    reviewElement.innerHTML = `
+        <div class="review-details">
+            <p><strong>Date:</strong> ${formatDate(review.reviewDate)}</p>
+            <p><strong>Author:</strong> ${review.authorName}</p>
+            <p><strong>Rating:</strong> ${getStarIcons(review.rating, review.publisher)}</p>
+            ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
+        </div>
+    `;
+    return reviewElement;
+}
+
+function initCarousel() {
+    const carousel = document.getElementById('review-carousel');
+    const reviews = carousel.getElementsByClassName('review');
+    let currentIndex = 0;
+    const totalReviews = reviews.length;
+
+    function showReview(index) {
+        // Hide all reviews
+        for (let i = 0; i < totalReviews; i++) {
+            reviews[i].style.display = 'none';
+        }
+        // Show the review at the given index
+        reviews[index].style.display = 'block';
+    }
+
+    // Show the initial review
+    showReview(currentIndex);
+
+    // Function to move to the next review
+    function nextReview() {
+        currentIndex = (currentIndex + 1) % totalReviews;
+        showReview(currentIndex);
+    }
+
+    // Function to move to the previous review
+    function prevReview() {
+        currentIndex = (currentIndex - 1 + totalReviews) % totalReviews;
+        showReview(currentIndex);
+    }
+
+    // Button event listeners for carousel navigation
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Next';
+    nextButton.addEventListener('click', nextReview);
+
+    const prevButton = document.createElement('button');
+    prevButton.textContent = 'Previous';
+    prevButton.addEventListener('click', prevReview);
+
+    carousel.appendChild(prevButton);
+    carousel.appendChild(nextButton);
+}
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
