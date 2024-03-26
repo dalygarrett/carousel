@@ -1,103 +1,192 @@
-document.addEventListener('DOMContentLoaded', function () {
-    let currentReviewIndex = 0; // Track the index of the current review being displayed
-    let averageRating;
-    let entityName;
-    let reviews = []; // Declare reviews in the outer scope
+// reviews-widget.js
 
-    function initWidget(config) {
-        // Extract the entity ID from the configuration
-        const entityId = config.entityId;
-        const baseUrl = config.baseUrl;
+let reviewGenerationUrl;
+let firstPartyReviewPage;
+let averageRating;
+let entityName;
+let reviews = []; // Declare reviews in the outer scope
 
-        console.log("Entity Id :", entityId);
-        console.log("Base URL :", baseUrl);
 
-        // Make the first API call to retrieve entity details
-        fetchEntityDetails(baseUrl, entityId)
-            .then((entityDetails) => {
-                console.log("Entity Details:", entityDetails);
+function initWidget(config) {
+    // Extract the entity ID from the configuration
+    const entityId = config.entityId;
+    const baseUrl = config.baseUrl;
+    // const entityId = script_tag.getAttribute('entityId');
 
-                // Store review generation URLs
-                reviewGenerationUrl = entityDetails.reviewGenerationUrl;
-                firstPartyReviewPage = entityDetails.firstPartyReviewPage;
+    console.log("Entity Id :", entityId);
+    console.log("Base URL :", baseUrl);
 
-                // Extract entity name
-                entityName = entityDetails.name;
+    // Make the first API call to retrieve entity details
+    fetchEntityDetails(baseUrl, entityId)
+        .then((entityDetails) => {
+            console.log("Entity Details:", entityDetails);
 
-                // Make the second API call to retrieve reviews using the obtained entity ID
-                return fetchReviews(baseUrl, entityId);
-            })
-            .then((fetchedReviews) => {
-                console.log("Reviews:", fetchedReviews);
+            // Store review generation URLs
+            reviewGenerationUrl = entityDetails.reviewGenerationUrl;
+            firstPartyReviewPage = entityDetails.firstPartyReviewPage;
 
-                // Update the reviews variable with the fetched reviews
-                reviews = fetchedReviews;
+            // Extract entity name
+            entityName = entityDetails.name;
 
-                // Extract review details
-                const reviewDetails = reviews.map((review) => ({
-                    authorName: review.authorName,
-                    content: review.content,
-                    publisher: review.publisher,
-                    rating: review.rating,
-                    reviewDate: review.reviewDate,
-                    comments: review.comments,
-                }));
+            // Make the second API call to retrieve reviews using the obtained entity ID
+            return fetchReviews(baseUrl, entityId);
+        })
+        .then((fetchedReviews) => {
+            console.log("Reviews:", fetchedReviews);
 
-                // Calculate the average rating
-                const totalRating = reviewDetails.reduce((sum, review) => sum + review.rating, 0);
-                averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
+            // Update the reviews variable with the fetched reviews
+            reviews = fetchedReviews;
 
-                // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
-                console.log("Review Generation URL:", reviewGenerationUrl);
-                console.log("First Party Review Page:", firstPartyReviewPage);
-                console.log("Average Rating:", averageRating);
+            // Extract review details
+            const reviewDetails = reviews.map((review) => ({
+                authorName: review.authorName,
+                content: review.content,
+                publisher: review.publisher,
+                rating: review.rating,
+                reviewDate: review.reviewDate,
+                comments: review.comments,
+            }));
 
-                // Display paginated reviews
-                displayReviews();
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }
+            // Calculate the average rating
+            const totalRating = reviewDetails.reduce((sum, review) => sum + review.rating, 0);
+            averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
 
-    function displayReviews() {
-        // Display total count and average rating
-        const totalCountElement = document.getElementById("total-count");
-        const averageRatingElement = document.getElementById("average-rating");
-        const starIconsElement = document.getElementById("star-icons");
-        const reviewsContainer = document.getElementById("reviews-container");
-        const paginationContainer = document.getElementById("pagination-container");
+            // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
+            console.log("Review Generation URL:", reviewGenerationUrl);
+            console.log("First Party Review Page:", firstPartyReviewPage);
+            console.log("Average Rating:", averageRating);
 
-        if (!Array.isArray(reviews) || reviews.length === 0) {
-            totalCountElement.innerHTML = "<h2>Be the first to leave a review!</h2>";
-            averageRatingElement.textContent = "";
-            starIconsElement.innerHTML = "";
-            reviewsContainer.innerHTML = ""; // Clear reviews container
-            paginationContainer.innerHTML = ""; // Clear pagination container
-            return;
-        }
+            // Display paginated reviews
+            displayReviews();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
 
-        // Calculate the average rating
-        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-        averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
+function displayReviews() {
+    // Display total count and average rating
+    // Display total count and average rating
+    const totalCountElement = document.getElementById("total-count");
+    const averageRatingElement = document.getElementById("average-rating");
+    const starIconsElement = document.getElementById("star-icons");
+    const reviewsContainer = document.getElementById("reviews-container");
+    const paginationContainer = document.getElementById("pagination-container");
 
-        // Display total count and average rating
-        totalCountElement.textContent = `Total Reviews: ${reviews.length}`;
-        averageRatingElement.textContent = `Average Rating: ${averageRating.toFixed(2)}`;
-        starIconsElement.innerHTML = getStarIcons(averageRating);
-
-        // Display carousel reviews
+    if (!Array.isArray(reviews) || reviews.length === 0) {
+        totalCountElement.innerHTML = "<h2>Be the first to leave a review!</h2>";
+        averageRatingElement.textContent = "";
+        starIconsElement.innerHTML = "";
         reviewsContainer.innerHTML = ""; // Clear reviews container
-        const reviewElement = createReviewElement(reviews[currentReviewIndex]);
-        reviewsContainer.appendChild(reviewElement);
-
-        // Display pagination controls (if needed)
         paginationContainer.innerHTML = ""; // Clear pagination container
+        return;
     }
 
-    function createReviewElement(review) {
+    // Calculate the average rating
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
+
+    // Display total count and average rating
+    totalCountElement.textContent = `Total Reviews: ${reviews.length}`;
+    averageRatingElement.textContent = `Average Rating: ${averageRating.toFixed(2)}`;
+    starIconsElement.innerHTML = getStarIcons(averageRating);
+
+    // Display paginated reviews
+    const reviewsPerPage = 5;
+    const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+
+    // Clear existing content
+    reviewsContainer.innerHTML = "";
+    paginationContainer.innerHTML = "";
+
+    // Display only the first page or the most recent 5 reviews
+    const initialPageReviews = reviews.slice(0, reviewsPerPage);
+    const pageElement = createReviewPageElement(initialPageReviews);
+    reviewsContainer.appendChild(pageElement);
+
+    // Display pagination controls
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.classList.add("pagination-button");
+        button.addEventListener("click", () => paginate(i, reviewsPerPage));
+        paginationContainer.appendChild(button);
+
+        // Set 'active' class for the initial page
+        if (i === 1) {
+            button.classList.add('active');
+        }
+    }
+
+}
+
+function paginate(currentPage, reviewsPerPage) {
+    const paginationButtons = document.querySelectorAll('.pagination-button');
+
+    // Remove the 'active' class from all buttons
+    paginationButtons.forEach(button => button.classList.remove('active'));
+
+    const startIndex = (currentPage - 1) * reviewsPerPage;
+    const endIndex = startIndex + reviewsPerPage;
+    const pageReviews = reviews.slice(startIndex, endIndex);
+    const reviewsContainer = document.getElementById("reviews-container");
+    reviewsContainer.innerHTML = ""; // Clear reviews container
+    const pageElement = createReviewPageElement(pageReviews);
+    reviewsContainer.appendChild(pageElement);
+
+    // Add the 'active' class to the current button
+    paginationButtons[currentPage - 1].classList.add('active');
+}
+
+function updatePaginationControls(totalPages) {
+    const paginationContainer = document.getElementById('pagination-container');
+    
+    // Clear existing pagination controls
+    paginationContainer.innerHTML = '';
+
+    // Create left arrow button
+    const leftArrow = document.createElement('button');
+    leftArrow.textContent = '←';
+    leftArrow.addEventListener('click', () => navigatePage(-1));
+    paginationContainer.appendChild(leftArrow);
+
+    // Create page number buttons
+    for (let i = 0; i < totalPages; i++) {
+        const pageNumber = document.createElement('button');
+        pageNumber.textContent = i + 1;
+        pageNumber.addEventListener('click', () => paginate(i + 1, reviewsPerPage));
+        paginationContainer.appendChild(pageNumber);
+
+        // Set 'active' class for the initial page
+        if (i === 0) {
+            pageNumber.classList.add('active');
+        }
+    }
+
+    // Create right arrow button
+    const rightArrow = document.createElement('button');
+    rightArrow.textContent = '→';
+    rightArrow.addEventListener('click', () => navigatePage(1));
+    paginationContainer.appendChild(rightArrow);
+}
+
+function navigatePage(offset) {
+    // Update the current page index
+    currentPageIndex = Math.max(0, Math.min(currentPageIndex + offset, totalPages - 1));
+
+    // Redisplay reviews for the current page
+    displayReviews(reviewDetails);
+}
+
+function createReviewPageElement(reviews) {
+    const pageElement = document.createElement('div');
+
+    reviews.forEach((review) => {
         const reviewElement = document.createElement('div');
         reviewElement.classList.add('review');
+
+        // Log the raw reviewDate string
+        console.log("Raw reviewDate:", review.reviewDate);
 
         // Determine the publisher icon based on the publisher value
         let publisherIcon = '';
@@ -121,9 +210,16 @@ document.addEventListener('DOMContentLoaded', function () {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
+                //   hour: 'numeric',
+                //   minute: 'numeric',
+                //   second: 'numeric',
               })
             : 'Date Not Available';
 
+        // Log the formatted reviewDate
+        console.log("Formatted reviewDate:", formattedReviewDate);
+
+        // Display review details (publisher, author, rating, content)
         reviewElement.innerHTML = `
             <div class="review-details">
                 <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
@@ -136,31 +232,122 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `;
 
+        pageElement.appendChild(reviewElement);
+
         const commentElement = createCommentHTML(review.comments, entityName);
         if (commentElement) {
-            reviewElement.appendChild(commentElement);
+            // Add a slight indent for comments to distinguish them as responses
+            pageElement.appendChild(commentElement);
+        }
+    });
+
+    return pageElement;
+}
+
+function createCommentHTML(comments, entityName) {
+    if (!comments || comments.length === 0) {
+        return null;
+    }
+
+    // Display comments as nested elements
+    const commentSection = document.createElement('div');
+    commentSection.classList.add('comment-section');
+
+    comments.forEach((comment) => {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+
+        // Modify the date formatting to exclude hours, minutes, and seconds
+        const formattedCommentDate = comment.commentDate
+            ? new Date(comment.commentDate).toLocaleString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+              })
+            : 'Date Not Available';
+
+        commentElement.innerHTML = `
+            <p><strong>Date:</strong> ${formattedCommentDate}</p>
+            <p><strong>${entityName}:</strong> ${comment.content}</p>
+        `;
+        commentSection.appendChild(commentElement);
+    });
+
+    return commentSection;
+}
+
+function getStarIcons(rating, publisher) {
+    console.log("Rating:", rating);
+    console.log("Publisher:", publisher);
+
+    if (publisher === 'FACEBOOK') {
+        if (rating === 0) {
+            return '<span class="recommended-text">Recommended</span>';
+        } else {
+            return '<span class="not-recommended-text">Not Recommended</span>';
+        }
+    }
+
+    const starCount = 5;
+    const fullStars = Math.floor(rating);
+    const halfStars = Math.round((rating % 1) * 2) / 2;
+    const emptyStars = starCount - fullStars - halfStars;
+
+    const starIcons = '<span class="star">&#9733;</span>'.repeat(fullStars) +
+        (halfStars === 0.5 ? '<span class="star half">&#9733;</span>' : '') +
+        '<span class="star empty">&#9734;</span>'.repeat(emptyStars);
+
+    return starIcons;
+}
+
+async function fetchEntityDetails(baseUrl, entityId) {
+    console.log('Fetching entity details...');
+    const apiUrl = `${baseUrl}entity/${entityId}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        console.log('Response received:', response);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch entity details: ${response.statusText}`);
         }
 
-        return reviewElement;
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching entity details:', error);
+        throw error; // Rethrow the error if you want calling code to handle it
     }
+}
 
-    function nextReview() {
-        currentReviewIndex = (currentReviewIndex + 1) % reviews.length;
-        displayReviews();
+async function fetchReviews(baseUrl, entityId) {
+    console.log('Fetching reviews...');
+    const apiUrl = `${baseUrl}entity/${entityId}/reviews`;
+
+    try {
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch reviews: ${response.statusText}`);
+        }
+
+        const reviews = await response.json();
+
+        // Check if the response or docs property is undefined or null
+        const docs = reviews?.response?.docs;
+
+        // If docs is undefined or null or an empty array, return an empty array
+        return Array.isArray(docs) ? docs : [];
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        throw error; // Rethrow the error if you want calling code to handle it
     }
+}
 
-    function previousReview() {
-        currentReviewIndex = (currentReviewIndex - 1 + reviews.length) % reviews.length;
-        displayReviews();
-    }
-
-    // Display reviews initially
-    displayReviews();
-
-    // Add event listeners for carousel navigation
-    const nextButton = document.getElementById('next-button');
-    nextButton.addEventListener('click', nextReview);
-
-    const prevButton = document.getElementById('prev-button');
-    prevButton.addEventListener('click', previousReview);
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listener for the review generation button
+    const reviewGenerationButton = document.getElementById('review-generation-button');
+    reviewGenerationButton.addEventListener('click', function () {
+        // Open the review generation link in a new tab
+        window.open(reviewGenerationUrl, '_blank');
+    });
 });
