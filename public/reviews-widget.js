@@ -16,11 +16,11 @@ async function initWidget(config) {
         reviewGenerationUrl = entityDetails.reviewGenerationUrl;
 
         entityName = entityDetails.name;
-        reviews = await fetchReviews(baseUrl, entityId); // Keep only the 10 most recent reviews
+        reviews = await fetchReviews(baseUrl, entityId);
 
         calculateAverageRating();
         displayCurrentReview();
-        setupPaginationControls();
+        // The setupPaginationControls function will be removed since we no longer dynamically create buttons
     } catch (error) {
         console.error("Error initializing widget:", error);
     }
@@ -34,7 +34,6 @@ function calculateAverageRating() {
     }
     const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
     averageRating = totalRating / reviews.length;
-    // Updated to remove "/ 5" from the displayed rating
     document.getElementById("average-rating").innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)}</h1>`;
     document.getElementById("star-icons").innerHTML = getStarIcons(averageRating);
 }
@@ -76,31 +75,6 @@ function createReviewElement(review) {
     return reviewElement;
 }
 
-function setupPaginationControls() {
-    const container = document.getElementById("review-carousel-container");
-
-    // Create left arrow button
-    const prevButton = document.createElement("button");
-    prevButton.innerHTML = "&#8592;"; // Left arrow HTML entity
-    prevButton.classList.add("pagination-button", "prev-button");
-    prevButton.addEventListener("click", () => {
-        currentIndex = Math.max(currentIndex - 1, 0);
-        displayCurrentReview();
-    });
-
-    // Create right arrow button
-    const nextButton = document.createElement("button");
-    nextButton.innerHTML = "&#8594;"; // Right arrow HTML entity
-    nextButton.classList.add("pagination-button", "next-button");
-    nextButton.addEventListener("click", () => {
-        currentIndex = Math.min(currentIndex + 1, reviews.length - 1);
-        displayCurrentReview();
-    });
-
-    // Append buttons directly before and after the container for the review content
-    container.before(prevButton);
-    container.after(nextButton);
-}
 
 function getPublisherIcon(publisher) {
     switch (publisher) {
@@ -168,6 +142,20 @@ async function fetchReviews(baseUrl, entityId) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Setup event listeners for existing buttons in the HTML
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    prevButton.addEventListener('click', () => {
+        currentIndex = Math.max(0, currentIndex - 1);
+        displayCurrentReview();
+    });
+
+    nextButton.addEventListener('click', () => {
+        currentIndex = Math.min(reviews.length - 1, currentIndex + 1);
+        displayCurrentReview();
+    });
+
     initWidget({
         baseUrl: 'https://main-frankly--troubled--katydid-pgsdemo-com.preview.pagescdn.com/',
         entityId: '8986600075955733488'
