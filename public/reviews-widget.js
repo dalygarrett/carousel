@@ -140,10 +140,9 @@ async function fetchReviews(baseUrl, entityId) {
             throw new Error(`Failed to fetch reviews: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log('API response for reviews:', data); // Ensure this matches expected structure
-        // Example adjustment: Ensure you're accessing the correct property for reviews
-        const reviews = data.docs || []; // Adjust based on your response structure
-        return reviews.slice(0, 10); // Keep only the 10 most recent reviews
+        console.log('Fetched reviews:', data.docs); // Ensure you're getting the expected structure
+        // Make sure to return the docs array directly if it exists
+        return data.docs || [];
     } catch (error) {
         console.error('Error fetching reviews:', error);
         throw error;
