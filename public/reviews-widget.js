@@ -77,18 +77,29 @@ function createReviewElement(review) {
 }
 
 function setupPaginationControls() {
-    const prevButton = document.getElementById("prev-button");
-    const nextButton = document.getElementById("next-button");
+    const container = document.getElementById("review-carousel-container");
 
+    // Create left arrow button
+    const prevButton = document.createElement("button");
+    prevButton.innerHTML = "&#8592;"; // Left arrow HTML entity
+    prevButton.classList.add("pagination-button", "prev-button");
     prevButton.addEventListener("click", () => {
         currentIndex = Math.max(currentIndex - 1, 0);
         displayCurrentReview();
     });
 
+    // Create right arrow button
+    const nextButton = document.createElement("button");
+    nextButton.innerHTML = "&#8594;"; // Right arrow HTML entity
+    nextButton.classList.add("pagination-button", "next-button");
     nextButton.addEventListener("click", () => {
         currentIndex = Math.min(currentIndex + 1, reviews.length - 1);
         displayCurrentReview();
     });
+
+    // Append buttons directly before and after the container for the review content
+    container.before(prevButton);
+    container.after(nextButton);
 }
 
 function getPublisherIcon(publisher) {
