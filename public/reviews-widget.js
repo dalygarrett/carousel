@@ -27,10 +27,14 @@ async function initWidget(config) {
 }
 
 function calculateAverageRating() {
-    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-    averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-
-    document.getElementById("average-rating").innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)}</h1>`;
+    if (reviews.length === 0) {
+        document.getElementById("average-rating").textContent = 'No ratings yet';
+        document.getElementById("star-icons").textContent = '';
+        return;
+    }
+    const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
+    averageRating = totalRating / reviews.length;
+    document.getElementById("average-rating").innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)} / 5</h1>`;
     document.getElementById("star-icons").innerHTML = getStarIcons(averageRating);
 }
 
@@ -136,10 +140,10 @@ async function fetchReviews(baseUrl, entityId) {
             throw new Error(`Failed to fetch reviews: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log('API response for reviews:', data); // Debugging line
-        // Adjust this line based on your actual API response structure
-        const reviews = data.reviews || []; // Example adjustment
-        return reviews;
+        console.log('API response for reviews:', data); // Ensure this matches expected structure
+        // Example adjustment: Ensure you're accessing the correct property for reviews
+        const reviews = data.docs || []; // Adjust based on your response structure
+        return reviews.slice(0, 10); // Keep only the 10 most recent reviews
     } catch (error) {
         console.error('Error fetching reviews:', error);
         throw error;
