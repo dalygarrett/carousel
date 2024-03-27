@@ -13,6 +13,10 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center; /* Centers items vertically */
+    justify-content: space-between; /* Spaces out the children (arrows and review container) */
+
 }
 
 .header {
@@ -253,16 +257,16 @@ button.pagination-button {
 }
 
 .review-carousel-container {
-    position: relative;
-    display: flex;
-    align-items: center;
+    flex-grow: 1; /* Allows the review container to expand and take up available space */
+    margin: 0 20px; /* Ensures there's space between the arrows and the review content */
 }
 
 .pagination-button {
+    /* Styling for the arrow buttons */
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 24px; /* Adjust size as needed */
+    font-size: 24px; /* Adjust the size as needed */
 }
 
 .prev-button {
