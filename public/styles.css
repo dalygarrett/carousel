@@ -276,13 +276,28 @@ button.pagination-button {
     font-size: 24px; /* Adjust the size as needed */
 }
 
-.prev-button {
-    position: absolute;
-    left: -40px; /* Adjust positioning as needed */
+#prev-button {
+    left: 0; /* Position the previous button on the left edge of the .review-carousel */
+    top: 50%; /* Align vertically to the center */
+    transform: translateY(-50%); /* Offset the button by half its height for perfect vertical centering */
 }
 
-.next-button {
-    position: absolute;
-    right: -40px; /* Adjust positioning as needed */
+#next-button {
+    right: 0; /* Position the next button on the right edge of the .review-carousel */
+    top: 50%; /* Align vertically to the center */
+    transform: translateY(-50%); /* Offset the button by half its height for perfect vertical centering */
 }
+
+.arrow-button {
+    /* Your existing styles for the arrow buttons */
+    position: absolute; /* Position arrows absolutely within the .review-carousel */
+}
+
+.review-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the review content horizontally */
+    position: relative; /* Allow absolute positioning for the arrows */
+}
+
 
