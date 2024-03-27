@@ -21,44 +21,29 @@ See example HTML below:
 
 </head>
 <body>
-
-    <div class="widget-container">
-        <div class="header">
-            <p id="average-rating"></p>
-            <p id="star-icons"></p>
-            <p id="total-count"></p>
-        </div>
-        <div class="center-button">
-            <button class="button" id="review-generation-button">Leave a Review</button>
-        </div>
-        <div id="reviews-container"></div>
-        <div class="pagination-container" id="pagination-container"></div>
-        <div class="center-button">
-            <p class="add-customer-text" id="add-customer-text">Add Customer</p>
-        </div>
+<div class="widget-container">
+    <div class="header">
+        <p id="average-rating"></p>
+        <p id="star-icons"></p>
     </div>
+
+    <div class="review-carousel">
+    <button class="arrow-button" id="prev-button">&#8592;</button>
+    <div id="review-carousel-container" class="review-carousel-container">
+    </div>
+    <button class="arrow-button" id="next-button">&#8594;</button>
+</div>
+</div>
     
-    
-    <script src="[BASE_URL]/reviews-widget.js"></script>
-    
-    
+    <script src="[BASE_URL]reviews-widget.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Add event listener for the review generation button
-            const reviewGenerationButton = document.getElementById('review-generation-button');
-            reviewGenerationButton.addEventListener('click', function () {
-                // Open the review generation link in a new tab
-                window.open(reviewGenerationUrl, '_blank');
+            initWidget({
+                baseUrl: '[BASE_URL]',
+                entityId: '[ENTITY_ID]'
             });
-
-            const addCustomerText = document.getElementById('add-customer-text');
-            addCustomerText.addEventListener('click', showAddCustomerForm);
-
-            // Initialize the widget after the DOM is fully loaded
-            initWidget({ baseUrl: '[BASE_URL]', entityId: '[ENTITY_ID]' });
         });
     </script>
-
 </body>
 </html>
 ```
