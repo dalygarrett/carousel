@@ -16,7 +16,7 @@ async function initWidget(config) {
         reviewGenerationUrl = entityDetails.reviewGenerationUrl;
 
         entityName = entityDetails.name;
-        reviews = await fetchReviews(baseUrl, entityId).then(reviews => reviews.slice(0, 10)); // Keep only the 10 most recent reviews
+        reviews = await fetchReviews(baseUrl, entityId); // Keep only the 10 most recent reviews
 
         calculateAverageRating();
         displayCurrentReview();
@@ -34,7 +34,8 @@ function calculateAverageRating() {
     }
     const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
     averageRating = totalRating / reviews.length;
-    document.getElementById("average-rating").innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)} / 5</h1>`;
+    // Updated to remove "/ 5" from the displayed rating
+    document.getElementById("average-rating").innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)}</h1>`;
     document.getElementById("star-icons").innerHTML = getStarIcons(averageRating);
 }
 
