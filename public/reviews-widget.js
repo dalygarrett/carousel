@@ -1,16 +1,19 @@
+
 // reviews-widget.js
 
 let reviewGenerationUrl;
+let baseUrl;
 let firstPartyReviewPage;
 let averageRating;
 let entityName;
 let reviews = []; // Declare reviews in the outer scope
+let entityId;
 
 
 function initWidget(config) {
     // Extract the entity ID from the configuration
-    const entityId = config.entityId;
-    const baseUrl = config.baseUrl;
+    entityId = config.entityId;
+    baseUrl = config.baseUrl;
     // const entityId = script_tag.getAttribute('entityId');
 
     console.log("Entity Id :", entityId);
@@ -52,7 +55,7 @@ function initWidget(config) {
             averageRating = reviewDetails.length > 0 ? totalRating / reviewDetails.length : 0;
 
             // Your widget initialization code here, using entity details, reviews data, review URLs, and average rating
-            console.log("Review Generation URL:", reviewGenerationUrl);
+            console.log("Review Generation URL:", );
             console.log("First Party Review Page:", firstPartyReviewPage);
             console.log("Average Rating:", averageRating);
 
@@ -65,6 +68,10 @@ function initWidget(config) {
 }
 
 function displayReviews() {
+
+    // Sort reviews by reviewDate in descending order (most recent first)
+    reviews.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
+
     // Display total count and average rating
     // Display total count and average rating
     const totalCountElement = document.getElementById("total-count");
@@ -88,7 +95,7 @@ function displayReviews() {
 
     // Display total count and average rating
     totalCountElement.textContent = `Total Reviews: ${reviews.length}`;
-    averageRatingElement.textContent = `Average Rating: ${averageRating.toFixed(2)}`;
+    averageRatingElement.innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)}</h1>`;
     starIconsElement.innerHTML = getStarIcons(averageRating);
 
     // Display paginated reviews
@@ -289,12 +296,10 @@ function getStarIcons(rating, publisher) {
     }
 
     const starCount = 5;
-    const fullStars = Math.floor(rating);
-    const halfStars = Math.round((rating % 1) * 2) / 2;
-    const emptyStars = starCount - fullStars - halfStars;
+    const fullStars = Math.round(rating); // Round to the nearest full star
+    const emptyStars = starCount - fullStars;
 
     const starIcons = '<span class="star">&#9733;</span>'.repeat(fullStars) +
-        (halfStars === 0.5 ? '<span class="star half">&#9733;</span>' : '') +
         '<span class="star empty">&#9734;</span>'.repeat(emptyStars);
 
     return starIcons;
@@ -343,6 +348,92 @@ async function fetchReviews(baseUrl, entityId) {
     }
 }
 
+function showAddCustomerForm() {
+    // Create and display the overlay form
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+
+    const form = document.createElement('form');
+    form.classList.add('customer-form');
+    form.innerHTML = `
+    <span class="close-button" onclick="closeForm()">X</span>
+    <h2>Add Contact Information</h2> <!-- Added title -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone">
+
+    <label for="or">or</label>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+
+    <div class="disclaimer">
+        <input type="checkbox" id="agree-checkbox" required>
+        <label for="agree-checkbox">I agree to receive text messages and other information from ${entityName}. I understand that message and data rates may apply and that I can opt-out at any time. I have read and understand the <a href="https://www.broadlume.com/privacy-policy" target="_blank">Privacy Policy</a> and <a href="https://www.broadlume.com/terms-of-use" target="_blank">Terms of Use</a>.</label>
+    </div>
+
+    <button type="button" onclick="submitForm()">Submit</button>
+    `;
+
+    overlay.appendChild(form);
+    document.body.appendChild(overlay);
+}
+
+function closeForm() {
+    // Close the overlay form
+    const overlay = document.querySelector('.overlay');
+    overlay.remove();
+}
+
+async function submitForm() {
+    // Get form values
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const agreeCheckbox = document.getElementById('agree-checkbox');
+
+    // Validate form data and checkbox
+    if (!name || (!phone && !email) || !agreeCheckbox.checked) {
+        alert('Please fill out all required fields and agree to the terms.');
+        return;
+    }
+
+    try {
+        // Make API call
+        const apiUrl = `${baseUrl}entity/gen`;
+
+        const requestBody = {
+            entityId,
+            name,
+            phone,
+            email,
+        };
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to submit form: ${response.statusText}`);
+        }
+
+        const responseData = await response.json();
+
+        alert('Form submitted successfully!');
+        closeForm();
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('Error submitting form. Please try again.');
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', function () {
     // Add event listener for the review generation button
     const reviewGenerationButton = document.getElementById('review-generation-button');
@@ -350,4 +441,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Open the review generation link in a new tab
         window.open(reviewGenerationUrl, '_blank');
     });
+
+    const addCustomerText = document.getElementById('add-customer-text');
+    addCustomerText.addEventListener('click', showAddCustomerForm);
 });
