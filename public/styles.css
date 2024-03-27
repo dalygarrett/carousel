@@ -257,7 +257,7 @@ button.pagination-button {
 
 .review-carousel-container {
     text-align: center;
-    padding: 0 40px; /* adjust the padding to ensure there's space for the arrows */
+    padding: 0 60px; /* adjust the padding to ensure there's space for the arrows */
 }
 
 .pagination-button {
