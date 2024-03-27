@@ -140,19 +140,18 @@ async function fetchReviews(baseUrl, entityId) {
             throw new Error(`Failed to fetch reviews: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log('API Response:', data); // Log the entire response for debugging
 
-        // Check if docs property exists and log it
-        if(data.docs) {
-            console.log('Fetched reviews:', data.docs);
-            return data.docs;
+        // Correctly accessing the docs within the response object
+        if (data.response && data.response.docs) {
+            console.log('Fetched reviews:', data.response.docs);
+            return data.response.docs;
         } else {
-            console.error('No "docs" property in response:', data);
-            return []; // Return an empty array if docs doesn't exist to prevent errors
+            console.error('No reviews found in response:', data);
+            return []; // Return an empty array if no reviews found to prevent errors
         }
     } catch (error) {
         console.error('Error fetching reviews:', error);
-        throw error;
+        throw error; // Rethrow the error for further handling if necessary
     }
 }
 
