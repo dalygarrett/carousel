@@ -37,6 +37,7 @@ body {
     padding: 15px;
     border: 1px solid #ddd;
     /* border-radius: 8px; */
+    
 }
 
 .review img {
@@ -107,6 +108,7 @@ body {
 
 .details-right {
     flex-grow: 1; /* Allow the content to grow and take remaining space */
+    text-align: left; /* Align text to the left */
 }
 
 
