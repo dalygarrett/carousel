@@ -16,12 +16,17 @@ body {
     display: flex;
     align-items: center; /* Centers items vertically */
     justify-content: space-between; /* Spaces out the children (arrows and review container) */
+    flex-direction: column; /* Stack the children vertically */
+    align-items: flex-start; /* Align children to the start of the flex container */
 
 }
 
 .header {
     text-align: center;
     margin-bottom: 20px;
+    width: 100%; /* Ensure the header takes full width */
+    order: -1; /* Make sure the header is above the review content regardless of HTML order */
+
 }
 
 .header h2 {
@@ -259,6 +264,8 @@ button.pagination-button {
 .review-carousel-container {
     flex-grow: 1; /* Allows the review container to expand and take up available space */
     margin: 0 20px; /* Ensures there's space between the arrows and the review content */
+    order: 0; /* Ensures that review container comes after header */
+
 }
 
 .pagination-button {
