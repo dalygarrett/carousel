@@ -251,3 +251,27 @@ button.pagination-button {
 #agree-checkbox {
     margin-right: 20px
 }
+
+.review-carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pagination-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px; /* Adjust size as needed */
+}
+
+.prev-button {
+    position: absolute;
+    left: -40px; /* Adjust positioning as needed */
+}
+
+.next-button {
+    position: absolute;
+    right: -40px; /* Adjust positioning as needed */
+}
+
