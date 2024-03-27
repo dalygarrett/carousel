@@ -35,7 +35,15 @@ function calculateAverageRating() {
 }
 
 function displayCurrentReview() {
+    if (reviews.length === 0) {
+        console.log('No reviews to display');
+        return; // Exit if there are no reviews
+    }
     const review = reviews[currentIndex];
+    if (!review) {
+        console.error('No review at currentIndex:', currentIndex);
+        return; // Exit if no review is found at the currentIndex
+    }
     const reviewElement = createReviewElement(review);
     const container = document.getElementById("review-carousel-container");
     container.innerHTML = ''; // Clear previous content
@@ -128,8 +136,10 @@ async function fetchReviews(baseUrl, entityId) {
             throw new Error(`Failed to fetch reviews: ${response.statusText}`);
         }
         const data = await response.json();
-        // Assuming the response structure has a `reviews` array
-        return data.reviews || [];
+        console.log('API response for reviews:', data); // Debugging line
+        // Adjust this line based on your actual API response structure
+        const reviews = data.reviews || []; // Example adjustment
+        return reviews;
     } catch (error) {
         console.error('Error fetching reviews:', error);
         throw error;
