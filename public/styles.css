@@ -36,8 +36,8 @@ body {
     margin-bottom: 20px;
     padding: 15px;
     border: 1px solid #ddd;
-    /* border-radius: 8px; */
-    
+    max-height: 300px; /* Limit the height of each review */
+    overflow-y: auto; /* Enable scrolling for long reviews */
 }
 
 .review img {
@@ -102,9 +102,10 @@ body {
 
 .review-details {
     display: flex;
-    align-items: flex-start; /* Align items at the start */
-
+    align-items: flex-start;
+    flex-wrap: wrap; /* Allow content to wrap within the container */
 }
+
 
 .details-right {
     flex-grow: 1; /* Allow the content to grow and take remaining space */
@@ -257,7 +258,9 @@ button.pagination-button {
 
 .review-carousel-container {
     text-align: center;
-    padding: 0 60px; /* adjust the padding to ensure there's space for the arrows */
+    padding: 0 60px;
+    height: 200px; /* Set the fixed height of the review container */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .pagination-button {
