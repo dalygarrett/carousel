@@ -259,7 +259,7 @@ button.pagination-button {
 .review-carousel-container {
     text-align: center;
     padding: 0 60px;
-    height: 200px; /* Set the fixed height of the review container */
+    height: auto; /* Set the fixed height of the review container */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 
