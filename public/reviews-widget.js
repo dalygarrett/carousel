@@ -108,7 +108,7 @@ function startAutoAdvance() {
     autoAdvanceInterval = setInterval(() => {
         currentIndex = (currentIndex + 1) % reviews.length;
         displayCurrentReview();
-    }, 10000); // Advance every 10 seconds
+    }, 7000); // Advance every 10 seconds
 }
 
 function stopAutoAdvance() {
