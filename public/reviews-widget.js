@@ -1,5 +1,5 @@
 // reviews-widget.js
-
+let autoAdvanceInterval;
 let reviewGenerationUrl;
 let baseUrl;
 let averageRating;
@@ -104,6 +104,17 @@ function getStarIcons(rating) {
     return starsHTML;
 }
 
+function startAutoAdvance() {
+    autoAdvanceInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % reviews.length;
+        displayCurrentReview();
+    }, 10000); // Advance every 10 seconds
+}
+
+function stopAutoAdvance() {
+    clearInterval(autoAdvanceInterval);
+}
+
 async function fetchEntityDetails(baseUrl, entityId) {
     const apiUrl = `${baseUrl}entity/${entityId}`;
     try {
@@ -142,22 +153,24 @@ async function fetchReviews(baseUrl, entityId) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Setup event listeners for existing buttons in the HTML
     const prevButton = document.getElementById('prev-button');
     const nextButton = document.getElementById('next-button');
 
+    // Start auto-advance when the document is loaded
+    startAutoAdvance();
+
     prevButton.addEventListener('click', () => {
+        stopAutoAdvance();
         currentIndex = Math.max(0, currentIndex - 1);
         displayCurrentReview();
+        startAutoAdvance(); // Restart auto-advance after manual navigation
     });
 
     nextButton.addEventListener('click', () => {
+        stopAutoAdvance();
         currentIndex = Math.min(reviews.length - 1, currentIndex + 1);
         displayCurrentReview();
+        startAutoAdvance(); // Restart auto-advance after manual navigation
     });
 
-    initWidget({
-        baseUrl: 'https://main-frankly--troubled--katydid-pgsdemo-com.preview.pagescdn.com/',
-        entityId: '8986600075955733488'
-    });
 });
