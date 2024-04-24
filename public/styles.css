@@ -273,10 +273,12 @@ button.pagination-button {
 
 #prev-button {
     left: 10px;
+    color: black;
 }
 
 #next-button {
     right: 10px;
+    color: black;
 }
 
 .arrow-button {
