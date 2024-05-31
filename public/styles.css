@@ -4,6 +4,33 @@ body {
     padding: 0;
 }
 
+.author-date-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.author {
+    font-weight: bold;
+    color: #333;
+}
+
+.date {
+    color: #666;
+    font-size: 14px;
+}
+
+.review-content {
+    font-size: 13px;
+    color: #333;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 .widget-container {
     max-width: 750px;
     margin: 20px auto;
@@ -47,9 +74,12 @@ body {
 }
 
 .rating {
-    color: #ffcc00; /* Yellow color */
-    font-size: 1.2em; /* Adjust the size as needed */
+    color: #ffcc00;
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
+
+
 
 .rating::before {
     content: '\2605'; /* Unicode character for a solid star */
