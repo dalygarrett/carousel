@@ -108,7 +108,7 @@ body {
 
 .details-right {
     flex-grow: 1; /* Allow the content to grow and take remaining space */
-    min-width: 200px; /* Set a minimum width for the details-right container */
+    max-width: 100px; /* Set a minimum width for the details-right container */
     text-align: left; /* Align text to the left */
 }
 
