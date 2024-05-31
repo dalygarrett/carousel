@@ -221,9 +221,9 @@ function createReviewPageElement(reviews) {
             <div class="review-details">
                 <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
                 <div class="details-right">
-                    <p><strong>Date:</strong> ${formattedReviewDate}</p>
-                    <p><strong>Author:</strong> ${review.authorName}</p>
-                    <p><strong>Rating:</strong> ${getStarIcons(review.rating, review.publisher)}</p>
+                    <p><strong>${review.authorName}</strong></p>
+                    <p>${formattedReviewDate}</p>
+                    <p>${getStarIcons(review.rating, review.publisher)}</p>
                     ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
                 </div>
             </div>
