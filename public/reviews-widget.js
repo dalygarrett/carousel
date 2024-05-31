@@ -51,12 +51,6 @@ function displayCurrentReview() {
     const container = document.getElementById("review-carousel-container");
     container.innerHTML = ''; // Clear previous content
     container.appendChild(reviewElement);
-    
-    // Ensure buttons are part of the container
-    const prevButton = document.getElementById('prev-button');
-    const nextButton = document.getElementById('next-button');
-    container.appendChild(prevButton); 
-    container.appendChild(nextButton);
 }
 
 function createReviewElement(review) {
@@ -113,7 +107,7 @@ function startAutoAdvance() {
     autoAdvanceInterval = setInterval(() => {
         currentIndex = (currentIndex + 1) % reviews.length;
         displayCurrentReview();
-    }, 7000); // Advance every 10 seconds
+    }, 7000); // Advance every 7 seconds
 }
 
 function stopAutoAdvance() {
