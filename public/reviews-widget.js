@@ -51,8 +51,12 @@ function displayCurrentReview() {
     const container = document.getElementById("review-carousel-container");
     container.innerHTML = ''; // Clear previous content
     container.appendChild(reviewElement);
-    container.appendChild(document.getElementById('prev-button')); // Re-add the previous button
-    container.appendChild(document.getElementById('next-button')); // Re-add the next button
+    
+    // Ensure buttons are part of the container
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    container.appendChild(prevButton); 
+    container.appendChild(nextButton);
 }
 
 function createReviewElement(review) {
@@ -157,21 +161,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const prevButton = document.getElementById('prev-button');
     const nextButton = document.getElementById('next-button');
 
-    // Start auto-advance when the document is loaded
     startAutoAdvance();
 
     prevButton.addEventListener('click', () => {
         stopAutoAdvance();
-        currentIndex = Math.max(0, currentIndex - 1);
+        currentIndex = (currentIndex === 0) ? reviews.length - 1 : currentIndex - 1;
         displayCurrentReview();
-        startAutoAdvance(); // Restart auto-advance after manual navigation
+        startAutoAdvance();
     });
 
     nextButton.addEventListener('click', () => {
         stopAutoAdvance();
-        currentIndex = Math.min(reviews.length - 1, currentIndex + 1);
+        currentIndex = (currentIndex + 1) % reviews.length;
         displayCurrentReview();
-        startAutoAdvance(); // Restart auto-advance after manual navigation
+        startAutoAdvance();
     });
-
 });
