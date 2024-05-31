@@ -64,9 +64,9 @@ function createReviewElement(review) {
         <div class="review-details">
             <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
             <div class="details-right">
-                <p><strong>Date:</strong> ${formattedDate}</p>
-                <p><strong>Author:</strong> ${review.authorName}</p>
-                <p><strong>Rating:</strong> ${starIcons}</p>
+                <p><strong>${review.authorName}</strong></p>
+                <p>${formattedDate}</p>
+                <p>${starIcons}</p>
                 ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
             </div>
         </div>
