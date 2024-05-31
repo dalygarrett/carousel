@@ -55,25 +55,56 @@ function displayCurrentReview() {
 
 function createReviewElement(review) {
     const reviewElement = document.createElement('div');
-    reviewElement.classList.add('review');
-    const publisherIcon = getPublisherIcon(review.publisher);
-    const formattedDate = new Date(review.reviewDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    const starIcons = getStarIcons(review.rating, review.publisher);
+    reviewElement.className = 'review';
 
-    reviewElement.innerHTML = `
-        <div class="review-details">
-            <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
-            <div class="details-right">
-                <p><strong>Date:</strong> ${formattedDate}</p>
-                <p><strong>Author:</strong> ${review.authorName}</p>
-                <p><strong>Rating:</strong> ${starIcons}</p>
-                ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
-            </div>
-        </div>
-    `;
+    // Create header container
+    const header = document.createElement('div');
+    header.className = 'review-header';
+
+    // Publisher icon
+    const publisherIcon = document.createElement('img');
+    publisherIcon.src = review.publisherIconUrl; // Assuming you have the URL in review object
+    publisherIcon.className = 'publisher-icon';
+
+    // Author and Date container
+    const authorDateContainer = document.createElement('div');
+    authorDateContainer.className = 'author-date-container';
+
+    // Author
+    const author = document.createElement('div');
+    author.className = 'author';
+    author.textContent = review.author;
+
+    // Date
+    const date = document.createElement('div');
+    date.className = 'date';
+    date.textContent = review.date;
+
+    // Append author and date to their container
+    authorDateContainer.appendChild(author);
+    authorDateContainer.appendChild(date);
+
+    // Append publisher icon and author-date container to header
+    header.appendChild(publisherIcon);
+    header.appendChild(authorDateContainer);
+
+    // Rating
+    const rating = document.createElement('div');
+    rating.className = 'rating';
+    rating.innerHTML = 'Rating: ' + review.rating; // Assuming review.rating contains the rating
+
+    // Review content
+    const content = document.createElement('div');
+    content.className = 'review-content';
+    content.textContent = review.content; // Assuming review.content contains the review text
+
+    // Append header, rating, and content to review element
+    reviewElement.appendChild(header);
+    reviewElement.appendChild(rating);
+    reviewElement.appendChild(content);
+
     return reviewElement;
 }
-
 
 function getPublisherIcon(publisher) {
     switch (publisher) {
