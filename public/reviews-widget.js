@@ -18,13 +18,12 @@ async function initWidget(config) {
         entityName = entityDetails.name;
         reviews = await fetchReviews(baseUrl, entityId);
 
-        calculateAverageRating();
         displayCurrentReview();
-        // The setupPaginationControls function will be removed since we no longer dynamically create buttons
     } catch (error) {
         console.error("Error initializing widget:", error);
     }
 }
+
 
 function calculateAverageRating() {
     if (reviews.length === 0) {
@@ -52,6 +51,8 @@ function displayCurrentReview() {
     const container = document.getElementById("review-carousel-container");
     container.innerHTML = ''; // Clear previous content
     container.appendChild(reviewElement);
+    container.appendChild(document.getElementById('prev-button')); // Re-add the previous button
+    container.appendChild(document.getElementById('next-button')); // Re-add the next button
 }
 
 function createReviewElement(review) {
