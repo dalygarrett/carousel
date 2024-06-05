@@ -276,7 +276,9 @@ button.pagination-button {
     width: 300px;
     position: relative; /* Ensure buttons are positioned relative to this container */
     overflow: hidden;
+    padding: 0 30px; /* Adjust padding for arrows */
 }
+
 
 .review-carousel-container:hover .arrow-button {
     opacity: 1; /* Show arrows on hover */
@@ -321,4 +323,5 @@ button.pagination-button {
     height: 200px;
     position: relative;
     font-size: 13px;
+    padding: 0 30px; /* Adjust padding for arrows */
 }
