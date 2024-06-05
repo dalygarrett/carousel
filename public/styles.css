@@ -13,21 +13,8 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.review-details p {
+.p {
     margin: 2px;
-}
-
-.review-details p strong {
-    display: block;
-    margin-bottom: 2px; /* Adjust the margin between the author and date */
-}
-
-.review-details p:nth-of-type(3) {
-    margin-bottom: 5px; /* Adjust the margin for the rating */
-}
-
-.review-details p strong + p {
-    margin-bottom: 2px; /* Adjust the margin for the review content */
 }
 
 .header {
@@ -35,7 +22,6 @@ body {
     margin-bottom: 20px;
     width: 100%; /* Ensure the header takes full width */
     order: -1; /* Make sure the header is above the review content regardless of HTML order */
-
 }
 
 .header h2 {
@@ -103,7 +89,6 @@ body {
     color: #fff;
 }
 
-
 .button {
     background-color: #007bff;
     color: #fff;
@@ -123,12 +108,28 @@ body {
     flex-wrap: wrap; /* Allow content to wrap within the container */
 }
 
+.review-details p {
+    margin: 2px; /* Set default margin for review details */
+}
+
+.review-details p strong {
+    display: block;
+    margin-bottom: 2px; /* Margin between author and date */
+}
+
+.review-details p:nth-of-type(3) {
+    margin-bottom: 5px; /* Margin for the rating */
+}
+
+.review-details p strong + p {
+    margin-bottom: 2px; /* Margin for the review content */
+}
+
 .details-right {
     flex-grow: 1; /* Allow the content to grow and take remaining space */
     max-width: 220px; /* Set a minimum width for the details-right container */
     text-align: left; /* Align text to the left */
 }
-
 
 .publisher-icon {
     margin-right: 10px;
@@ -139,7 +140,6 @@ body {
     text-align: center;
 }
 
-
 .comment-section {
     margin-bottom: 30px;
     padding: 15px;
@@ -147,7 +147,6 @@ body {
     margin-top: -21px;
     border: 1px solid #ddd;
     /* border-radius: 8px; */
-
 }
 
 .pagination-container {
@@ -173,7 +172,6 @@ body {
     color: red;
     font-weight: bold;
 }
-
 
 .overlay {
     position: fixed;
@@ -277,6 +275,11 @@ button.pagination-button {
     height: 200px; /* Set the fixed height of the review container */
     width: 300px;
     position: relative; /* Ensure buttons are positioned relative to this container */
+    overflow: hidden;
+}
+
+.review-carousel-container:hover .arrow-button {
+    opacity: 1; /* Show arrows on hover */
 }
 
 .pagination-button {
@@ -305,6 +308,8 @@ button.pagination-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    opacity: 0; /* Hide arrows by default */
+    transition: opacity 0.3s; /* Smooth transition */
 }
 
 .review-carousel {
@@ -312,8 +317,6 @@ button.pagination-button {
     justify-content: center;
     align-items: center;
     width: 300px;
-    padding-right: 75px;
-    padding-left: 65px;
     height: 200px;
     position: relative;
     font-size: 13px;
