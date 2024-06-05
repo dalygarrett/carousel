@@ -70,7 +70,7 @@ function createReviewElement(review) {
                 <p><strong>${review.authorName}</strong></p>
                 <p>${formattedDate}</p>
                 <p>${starIcons}</p>
-                <p><strong>Review:</strong> <span class="truncated-content">${truncatedContent}</span> <span class="show-more-btn">Show more</span></p>
+                <p><strong>Review:</strong> <span class="truncated-content">${truncatedContent}</span> ${review.content.length > 200 ? '<span class="show-more-btn">Show more</span>' : ''}</p>
                 <p class="full-content" style="display: none;">${fullContent}</p>
             </div>
         </div>
@@ -80,11 +80,13 @@ function createReviewElement(review) {
     const fullContentElem = reviewElement.querySelector('.full-content');
     const truncatedContentElem = reviewElement.querySelector('.truncated-content');
 
-    showMoreBtn.addEventListener('click', () => {
-        fullContentElem.style.display = 'inline';
-        truncatedContentElem.style.display = 'none';
-        showMoreBtn.style.display = 'none';
-    });
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', () => {
+            fullContentElem.style.display = 'inline';
+            truncatedContentElem.style.display = 'none';
+            showMoreBtn.style.display = 'none';
+        });
+    }
 
     return reviewElement;
 }
