@@ -309,7 +309,7 @@ button.pagination-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    opacity: 0; /* Hide arrows by default */
+    opacity: 1; /* Hide arrows by default */
     transition: opacity 0.3s; /* Smooth transition */
     z-index: 10; /* Ensure the arrows are on top of other elements */
 }
