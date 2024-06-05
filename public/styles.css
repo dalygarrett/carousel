@@ -13,9 +13,16 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.p {
-    margin: 2px;
+.show-more-btn {
+    color: blue; /* Blue text color */
+    text-decoration: underline; /* Underline */
+    cursor: pointer; /* Show pointer cursor */
 }
+
+.show-more-btn:hover {
+    color: darkblue; /* Darker blue color on hover */
+}
+
 
 .header {
     text-align: center;
