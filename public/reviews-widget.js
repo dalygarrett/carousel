@@ -60,8 +60,8 @@ function createReviewElement(review) {
     const formattedDate = new Date(review.reviewDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const starIcons = getStarIcons(review.rating, review.publisher);
 
-    const truncatedContent = review.content.length > 200 ? review.content.substring(0, 200) + '...' : review.content;
-    const fullContent = review.content.length > 200 ? review.content : '';
+    const truncatedContent = review.content.length > 175 ? review.content.substring(0, 175) + '...' : review.content;
+    const fullContent = review.content.length > 175 ? review.content : '';
 
     reviewElement.innerHTML = `
         <div class="review-details">
@@ -70,7 +70,7 @@ function createReviewElement(review) {
                 <p><strong>${review.authorName}</strong></p>
                 <p>${formattedDate}</p>
                 <p>${starIcons}</p>
-                <p><strong>Review:</strong> <span class="truncated-content">${truncatedContent}</span> ${review.content.length > 200 ? '<span class="show-more-btn">Show more</span>' : ''}</p>
+                <p><strong>Review:</strong> <span class="truncated-content">${truncatedContent}</span> ${review.content.length > 175 ? '<span class="show-more-btn">Show more</span>' : ''}</p>
                 <p class="full-content" style="display: none;">${fullContent}</p>
             </div>
         </div>
