@@ -60,6 +60,9 @@ function createReviewElement(review) {
     const formattedDate = new Date(review.reviewDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const starIcons = getStarIcons(review.rating, review.publisher);
 
+    const truncatedContent = review.content.length > 200 ? review.content.substring(0, 200) + '...' : review.content;
+    const fullContent = review.content.length > 200 ? review.content : '';
+
     reviewElement.innerHTML = `
         <div class="review-details">
             <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
@@ -67,10 +70,22 @@ function createReviewElement(review) {
                 <p><strong>${review.authorName}</strong></p>
                 <p>${formattedDate}</p>
                 <p>${starIcons}</p>
-                ${review.content ? `<p><strong>Review:</strong> ${review.content}</p>` : ''}
+                <p><strong>Review:</strong> <span class="truncated-content">${truncatedContent}</span> <span class="show-more-btn">Show more</span></p>
+                <p class="full-content" style="display: none;">${fullContent}</p>
             </div>
         </div>
     `;
+
+    const showMoreBtn = reviewElement.querySelector('.show-more-btn');
+    const fullContentElem = reviewElement.querySelector('.full-content');
+    const truncatedContentElem = reviewElement.querySelector('.truncated-content');
+
+    showMoreBtn.addEventListener('click', () => {
+        fullContentElem.style.display = 'inline';
+        truncatedContentElem.style.display = 'none';
+        showMoreBtn.style.display = 'none';
+    });
+
     return reviewElement;
 }
 
