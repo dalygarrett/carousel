@@ -304,9 +304,9 @@ button.pagination-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 18px;
     position: absolute;
-    top: 50%;
+    top: 35%;
     transform: translateY(-50%);
     opacity: 1; /* Hide arrows by default */
     transition: opacity 0.3s; /* Smooth transition */
