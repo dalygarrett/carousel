@@ -59,16 +59,18 @@ const Static: Template<TemplateRenderProps> = ({
   path,
   document,
 }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
   React.useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://crossly-previous-buzzard.pgsdemo.com/reviews-widget.js";
     script.async = true;
 
     script.onload = () => {
-      if (typeof window.initWidget === "function") {
+      if (typeof window.initWidget === "function" && containerRef.current) {
         window.initWidget({
           baseUrl: 'https://crossly-previous-buzzard.pgsdemo.com/',
-          entityId: '8986600075955733488'
+          entityId: '8986600075955733488',
         });
       }
     };
@@ -82,7 +84,7 @@ const Static: Template<TemplateRenderProps> = ({
 
   return (
     <div>
-      <div className="review-carousel">
+      <div className="review-carousel" ref={containerRef}>
         <button className="arrow-button" id="prev-button">&#8592;</button>
         <div id="review-carousel-container" className="review-carousel-container"></div>
         <button className="arrow-button" id="next-button">&#8594;</button>
