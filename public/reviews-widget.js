@@ -33,7 +33,7 @@ function calculateAverageRating() {
     }
     const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
     averageRating = totalRating / reviews.length;
-    document.getElementById("average-rating").innerHTML = <h1 class="hero-rating">${averageRating.toFixed(2)}</h1>;
+    document.getElementById("average-rating").innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)}</h1>`;
     document.getElementById("star-icons").innerHTML = getStarIcons(averageRating);
 }
 
@@ -63,7 +63,7 @@ function createReviewElement(review) {
     const truncatedContent = review.content.length > 175 ? review.content.substring(0, 175) + '...' : review.content;
     const fullContent = review.content.length > 175 ? review.content : '';
 
-    reviewElement.innerHTML = 
+    reviewElement.innerHTML = `
         <div class="review-details">
             <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
             <div class="details-right">
@@ -74,7 +74,7 @@ function createReviewElement(review) {
                 <p class="full-content" style="display: none;">${fullContent}</p>
             </div>
         </div>
-    ;
+    `;
 
     const showMoreBtn = reviewElement.querySelector('.show-more-btn');
     const fullContentElem = reviewElement.querySelector('.full-content');
@@ -132,11 +132,11 @@ function stopAutoAdvance() {
 }
 
 async function fetchEntityDetails(baseUrl, entityId) {
-    const apiUrl = ${baseUrl}entity/${entityId};
+    const apiUrl = `${baseUrl}entity/${entityId}`;
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) {
-            throw new Error(Failed to fetch entity details: ${response.statusText});
+            throw new Error(`Failed to fetch entity details: ${response.statusText}`);
         }
         return await response.json();
     } catch (error) {
@@ -146,11 +146,11 @@ async function fetchEntityDetails(baseUrl, entityId) {
 }
 
 async function fetchReviews(baseUrl, entityId) {
-    const apiUrl = ${baseUrl}entity/${entityId}/reviews;
+    const apiUrl = `${baseUrl}entity/${entityId}/reviews`;
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) {
-            throw new Error(Failed to fetch reviews: ${response.statusText});
+            throw new Error(`Failed to fetch reviews: ${response.statusText}`);
         }
         const data = await response.json();
 
