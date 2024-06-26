@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../index.css";
 import {
   Template,
@@ -57,6 +57,7 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
 
 const useReviewsWidget = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -75,15 +76,16 @@ const useReviewsWidget = () => {
   }, []);
 
   useEffect(() => {
-    if (isLoaded && window.initWidget) {
+    if (isLoaded && window.initWidget && containerRef.current) {
       window.initWidget({
         baseUrl: 'https://crossly-previous-buzzard.pgsdemo.com/',
-        entityId: '8986600075955733488'
+        entityId: '8986600075955733488',
+        container: containerRef.current
       });
     }
   }, [isLoaded]);
 
-  return isLoaded;
+  return { isLoaded, containerRef };
 };
 
 const Static: Template<TemplateRenderProps> = ({
@@ -92,23 +94,16 @@ const Static: Template<TemplateRenderProps> = ({
   document,
 }) => {
   const { _site } = document;
-  const isWidgetLoaded = useReviewsWidget();
+  const { isLoaded, containerRef } = useReviewsWidget();
 
   return (
     <div>
       <h1>Reviews Widget Example</h1>
-      {isWidgetLoaded ? (
-        <div className="review-carousel">
-          <button className="arrow-button" id="prev-button">&#8592;</button>
-          <div id="review-carousel-container" className="review-carousel-container"></div>
-          <button className="arrow-button" id="next-button">&#8594;</button>
-        </div>
-      ) : (
-        <p>Loading reviews widget...</p>
-      )}
+      <div className="review-carousel" ref={containerRef}>
+        {!isLoaded && <p>Loading reviews widget...</p>}
+      </div>
     </div>
   );
 };
 
 export default Static;
-
