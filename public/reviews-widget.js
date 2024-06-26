@@ -1,4 +1,3 @@
-// reviews-widget.js
 let autoAdvanceInterval;
 let reviewGenerationUrl;
 let baseUrl;
@@ -24,17 +23,16 @@ async function initWidget(config) {
     }
 }
 
-
 function calculateAverageRating() {
     if (reviews.length === 0) {
-        document.getElementById("average-rating").textContent = 'No ratings yet';
-        document.getElementById("star-icons").textContent = '';
+        document.getElementById("rc-average-rating").textContent = 'No ratings yet';
+        document.getElementById("rc-star-icons").textContent = '';
         return;
     }
     const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
     averageRating = totalRating / reviews.length;
-    document.getElementById("average-rating").innerHTML = `<h1 class="hero-rating">${averageRating.toFixed(2)}</h1>`;
-    document.getElementById("star-icons").innerHTML = getStarIcons(averageRating);
+    document.getElementById("rc-average-rating").innerHTML = `<h1 class="rc-hero-rating">${averageRating.toFixed(2)}</h1>`;
+    document.getElementById("rc-star-icons").innerHTML = getStarIcons(averageRating);
 }
 
 function displayCurrentReview() {
@@ -48,14 +46,14 @@ function displayCurrentReview() {
         return; // Exit if no review is found at the currentIndex
     }
     const reviewElement = createReviewElement(review);
-    const container = document.getElementById("review-carousel-container");
+    const container = document.getElementById("rc-review-carousel-container");
     container.innerHTML = ''; // Clear previous content
     container.appendChild(reviewElement);
 }
 
 function createReviewElement(review) {
     const reviewElement = document.createElement('div');
-    reviewElement.classList.add('review');
+    reviewElement.classList.add('rc-review');
     const publisherIcon = getPublisherIcon(review.publisher);
     const formattedDate = new Date(review.reviewDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const starIcons = getStarIcons(review.rating, review.publisher);
@@ -64,21 +62,21 @@ function createReviewElement(review) {
     const fullContent = review.content.length > 175 ? review.content : '';
 
     reviewElement.innerHTML = `
-        <div class="review-details">
-            <img class="publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
-            <div class="details-right">
+        <div class="rc-review-details">
+            <img class="rc-publisher-icon" src="${publisherIcon}" alt="${review.publisher}">
+            <div class="rc-details-right">
                 <p><strong>${review.authorName}</strong></p>
                 <p>${formattedDate}</p>
                 <p>${starIcons}</p>
-                <p><strong>Review:</strong> <span class="truncated-content">${truncatedContent}</span> ${review.content.length > 175 ? '<span class="show-more-btn">Show more</span>' : ''}</p>
-                <p class="full-content" style="display: none;">${fullContent}</p>
+                <p><strong>Review:</strong> <span class="rc-truncated-content">${truncatedContent}</span> ${review.content.length > 175 ? '<span class="rc-show-more-btn">Show more</span>' : ''}</p>
+                <p class="rc-full-content" style="display: none;">${fullContent}</p>
             </div>
         </div>
     `;
 
-    const showMoreBtn = reviewElement.querySelector('.show-more-btn');
-    const fullContentElem = reviewElement.querySelector('.full-content');
-    const truncatedContentElem = reviewElement.querySelector('.truncated-content');
+    const showMoreBtn = reviewElement.querySelector('.rc-show-more-btn');
+    const fullContentElem = reviewElement.querySelector('.rc-full-content');
+    const truncatedContentElem = reviewElement.querySelector('.rc-truncated-content');
 
     if (showMoreBtn) {
         showMoreBtn.addEventListener('click', () => {
@@ -90,7 +88,6 @@ function createReviewElement(review) {
 
     return reviewElement;
 }
-
 
 function getPublisherIcon(publisher) {
     switch (publisher) {
@@ -110,11 +107,11 @@ function getStarIcons(rating) {
     let starsHTML = '';
     for (let i = 0; i < starTotal; i++) {
         if (i < Math.floor(rating)) {
-            starsHTML += '<span class="star filled">&#9733;</span>'; // Filled star
+            starsHTML += '<span class="rc-star filled">&#9733;</span>'; // Filled star
         } else if (i < Math.ceil(rating)) {
-            starsHTML += '<span class="star half-filled">&#9733;</span>'; // Half-filled star for future implementation
+            starsHTML += '<span class="rc-star half-filled">&#9733;</span>'; // Half-filled star for future implementation
         } else {
-            starsHTML += '<span class="star">&#9734;</span>'; // Empty star
+            starsHTML += '<span class="rc-star">&#9734;</span>'; // Empty star
         }
     }
     return starsHTML;
@@ -124,7 +121,7 @@ function startAutoAdvance() {
     autoAdvanceInterval = setInterval(() => {
         currentIndex = (currentIndex + 1) % reviews.length;
         displayCurrentReview();
-    }, 100000); // Advance every 7 seconds
+    }, 7000); // Advance every 7 seconds
 }
 
 function stopAutoAdvance() {
@@ -169,8 +166,8 @@ async function fetchReviews(baseUrl, entityId) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const prevButton = document.getElementById('prev-button');
-    const nextButton = document.getElementById('next-button');
+    const prevButton = document.getElementById('rc-prev-button');
+    const nextButton = document.getElementById('rc-next-button');
 
     startAutoAdvance();
 
