@@ -7,7 +7,6 @@ import {
   HeadConfig,
   TransformProps,
   TemplateConfig,
-  TemplateProps,
   TemplateRenderProps,
 } from "@yext/pages";
 import Favicon from "../public/yext-favicon.ico";
@@ -63,6 +62,8 @@ const Static: Template<TemplateRenderProps> = ({
   React.useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://crossly-previous-buzzard.pgsdemo.com/reviews-widget.js";
+    script.async = true;
+
     script.onload = () => {
       if (typeof window.initWidget === "function") {
         window.initWidget({
@@ -71,17 +72,22 @@ const Static: Template<TemplateRenderProps> = ({
         });
       }
     };
+
     document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   return (
-    <>
+    <div>
       <div className="review-carousel">
         <button className="arrow-button" id="prev-button">&#8592;</button>
         <div id="review-carousel-container" className="review-carousel-container"></div>
         <button className="arrow-button" id="next-button">&#8594;</button>
       </div>
-    </>
+    </div>
   );
 };
 
