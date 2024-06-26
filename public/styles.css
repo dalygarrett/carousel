@@ -4,7 +4,7 @@ body {
     padding: 0 !important;
 }
 
-.rc-widget-container {
+.widget-container {
     max-width: 750px !important;
     margin: 20px auto !important;
     background-color: #f5f5f5 !important;
@@ -13,88 +13,88 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
 }
 
-.rc-show-more-btn {
-    color: blue !important; /* Blue text color */
-    text-decoration: underline !important; /* Underline */
-    cursor: pointer !important; /* Show pointer cursor */
+.show-more-btn {
+    color: blue !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
 }
 
-.rc-show-more-btn:hover {
-    color: darkblue !important; /* Darker blue color on hover */
+.show-more-btn:hover {
+    color: darkblue !important;
 }
 
-.rc-header {
+.header {
     text-align: center !important;
     margin-bottom: 20px !important;
-    width: 100% !important; /* Ensure the header takes full width */
-    order: -1 !important; /* Make sure the header is above the review content regardless of HTML order */
+    width: 100% !important;
+    order: -1 !important;
 }
 
-.rc-header h2 {
-    font-size: 24px !important; /* Adjust the font size as needed */
-    color: #333 !important; /* Adjust the color as needed */
+.header h2 {
+    font-size: 24px !important;
+    color: #333 !important;
 }
 
-.rc-header p {
-    font-size: 18px !important; /* Adjust the font size as needed */
-    color: #666 !important; /* Adjust the color as needed */
+.header p {
+    font-size: 18px !important;
+    color: #666 !important;
     margin: 8px 0 !important;
 }
 
-.rc-review {
+.review {
     padding: 10px !important;
     border: 1px solid #ddd !important;
-    overflow-y: auto !important; /* Enable scrolling for long reviews */
+    overflow-y: auto !important;
     width: 300px !important;
     height: 200px !important;
 }
 
-.rc-review img {
+.review img {
     width: 43px !important;
     height: 43px !important;
 }
 
-.rc-rating {
-    color: #ffcc00 !important; /* Yellow color */
-    font-size: 1.2em !important; /* Adjust the size as needed */
+.rating {
+    color: #ffcc00 !important;
+    font-size: 1.2em !important;
 }
 
-.rc-rating::before {
-    content: '\2605' !important; /* Unicode character for a solid star */
-    margin-right: 2px !important; /* Adjust spacing */
+.rating::before {
+    content: '\2605' !important;
+    margin-right: 2px !important;
 }
 
-.rc-rating::after {
-    content: '\2605' !important; /* Unicode character for a solid star */
-    margin-left: 2px !important; /* Adjust spacing */
-    color: #ddd !important; /* Color for empty stars (gray in this example) */
+.rating::after {
+    content: '\2605' !important;
+    margin-left: 2px !important;
+    color: #ddd !important;
 }
 
-.rc-star {
-    color: #ffcc00 !important; /* Yellow color */
-    font-size: 24px !important; /* Adjust the size as needed */
-    margin-right: 2px !important; /* Adjust the spacing between full stars */
+.star {
+    color: #ffcc00 !important;
+    font-size: 24px !important;
+    margin-right: 2px !important;
 }
 
-.rc-star.half {
+.star.half {
     position: relative !important;
     display: inline-block !important;
-    margin-right: 2px !important; /* Adjust the spacing between half stars */
+    margin-right: 2px !important;
     overflow: hidden !important;
 }
 
-.rc-star.half:before {
-    content: '\00BD' !important; /* Unicode character for half star */
+.star.half:before {
+    content: '\00BD' !important;
     position: absolute !important;
     left: 0 !important;
 }
 
-.rc-pagination-button.active {
+.pagination-button.active {
     background-color: #007bff !important;
     color: #fff !important;
 }
 
-.rc-button {
+.button {
     background-color: #007bff !important;
     color: #fff !important;
     padding: 15px 20px !important;
@@ -103,64 +103,63 @@ body {
     cursor: pointer !important;
 }
 
-.rc-button:hover {
+.button:hover {
     background-color: #0056b3 !important;
 }
 
-.rc-review-details {
+.review-details {
     display: flex !important;
     align-items: flex-start !important;
-    flex-wrap: wrap !important; /* Allow content to wrap within the container */
+    flex-wrap: wrap !important;
 }
 
-.rc-review-details p {
-    margin: 2px !important; /* Set default margin for review details */
+.review-details p {
+    margin: 2px !important;
 }
 
-.rc-review-details p strong {
+.review-details p strong {
     display: block !important;
-    margin-bottom: 2px !important; /* Margin between author and date */
+    margin-bottom: 2px !important;
 }
 
-.rc-review-details p:nth-of-type(3) {
-    margin-bottom: 5px !important; /* Margin for the rating */
+.review-details p:nth-of-type(3) {
+    margin-bottom: 5px !important;
 }
 
-.rc-review-details p strong + p {
-    margin-bottom: 2px !important; /* Margin for the review content */
+.review-details p strong + p {
+    margin-bottom: 2px !important;
 }
 
-.rc-details-right {
-    flex-grow: 1 !important; /* Allow the content to grow and take remaining space */
-    max-width: 220px !important; /* Set a minimum width for the details-right container */
-    text-align: left !important; /* Align text to the left */
+.details-right {
+    flex-grow: 1 !important;
+    max-width: 220px !important;
+    text-align: left !important;
 }
 
-.rc-publisher-icon {
+.publisher-icon {
     margin-right: 10px !important;
-    flex-shrink: 0 !important; /* Prevent the icon from shrinking */
+    flex-shrink: 0 !important;
 }
 
-.rc-center-button {
+.center-button {
     text-align: center !important;
 }
 
-.rc-comment-section {
+.comment-section {
     margin-bottom: 30px !important;
     padding: 15px !important;
     padding-left: 100px !important;
     margin-top: -21px !important;
     border: 1px solid #ddd !important;
-    /* border-radius: 8px !important; */
 }
 
-.rc-pagination-container {
+.pagination-container {
     margin-top: 20px !important;
     text-align: center !important;
     margin-bottom: 20px !important;
 }
 
-.rc-pagination-button {
+.pagination-button {
     margin: 0 5px !important;
     cursor: pointer !important;
     border: 1px solid #ccc !important;
@@ -168,17 +167,17 @@ body {
     border-radius: 5px !important;
 }
 
-.rc-recommended-text {
+.recommended-text {
     color: green !important;
     font-weight: bold !important;
 }
 
-.rc-not-recommended-text {
+.not-recommended-text {
     color: red !important;
     font-weight: bold !important;
 }
 
-.rc-overlay {
+.overlay {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -188,39 +187,39 @@ body {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    z-index: 99999 !important; /* Set a higher z-index value */
+    z-index: 99999 !important;
 }
 
-.rc-customer-form {
+.customer-form {
     position: relative !important;
     background-color: #fff !important;
     padding: 20px !important;
     border-radius: 8px !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) !important;
-    max-width: 500px !important; /* Adjust the maximum width as needed */
-    margin: auto !important; /* Center the form horizontally */
-    text-align: center !important; /* Center the form content */
+    max-width: 500px !important;
+    margin: auto !important;
+    text-align: center !important;
     color: black !important;
-    z-index: 9999 !important; /* Set a high z-index value */
+    z-index: 9999 !important;
 }
 
-button.rc-pagination-button {
+button.pagination-button {
     color: black !important;
 }
 
-.rc-customer-form label {
+.customer-form label {
     display: block !important;
     margin-bottom: 8px !important;
 }
 
-.rc-customer-form input {
+.customer-form input {
     width: 100% !important;
     padding: 8px !important;
     margin-bottom: 16px !important;
     box-sizing: border-box !important;
 }
 
-.rc-customer-form button {
+.customer-form button {
     background-color: #007bff !important;
     color: #fff !important;
     padding: 10px 15px !important;
@@ -229,11 +228,11 @@ button.rc-pagination-button {
     cursor: pointer !important;
 }
 
-.rc-customer-form button:hover {
+.customer-form button:hover {
     background-color: #0056b3 !important;
 }
 
-.rc-close-button {
+.close-button {
     position: absolute !important;
     top: 10px !important;
     right: 10px !important;
@@ -242,40 +241,87 @@ button.rc-pagination-button {
     color: #333 !important;
 }
 
-.rc-center-button {
+.center-button {
     text-align: center !important;
     margin-bottom: 20px !important;
 }
 
-.rc-add-customer-text {
-    color: #888 !important; /* Light grey color */
+.add-customer-text {
+    color: #888 !important;
     font-weight: bold !important;
     text-decoration: underline !important;
     cursor: pointer !important;
 }
 
-.rc-add-customer-text:hover {
-    color: #666 !important; /* Darker grey color on hover */
+.add-customer-text:hover {
+    color: #666 !important;
 }
 
-.rc-hero-rating {
+.hero-rating {
     font-size: 2em !important;
     font-weight: bold !important;
     color: #333 !important;
     margin: 0 !important;
 }
 
-.rc-disclaimer {
+.disclaimer {
     display: flex !important;
     align-items: center !important;
-    margin-bottom: 16px !important; /* Adjust margin as needed */
+    margin-bottom: 16px !important;
 }
 
-#rc-agree-checkbox {
+#agree-checkbox {
     margin-right: 20px !important;
 }
 
-.rc-review-carousel-container {
+.review-carousel-container {
     text-align: center !important;
     height: 200px !important;
+    width: 300px !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.review-carousel-container:hover .arrow-button {
+    opacity: 1 !important;
+}
+
+.pagination-button {
+    background-color: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 24px !important;
+}
+
+#prev-button {
+    left: 10px !important;
+    color: black !important;
+}
+
+#next-button {
+    right: 10px !important;
+    color: black !important;
+}
+
+.arrow-button {
+    background-color: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 18px !important;
+    position: absolute !important;
+    top: 38% !important;
+    transform: translateY(-50%) !important;
+    opacity: 1 !important;
+    transition: opacity 0.3s !important;
+    z-index: 10 !important;
+}
+
+.review-carousel {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 300px !important;
+    height: 200px !important;
+    position: relative !important;
+    font-size: 13px !important;
 }
