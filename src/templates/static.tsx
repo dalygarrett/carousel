@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../index.css";
 import {
   Template,
@@ -55,41 +55,60 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
   };
 };
 
-const Static: Template<TemplateRenderProps> = ({
-  relativePrefixToRoot,
-  path,
-  document,
-}) => {
-  const { _site } = document;
+const useReviewsWidget = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const script = document.createElement('script');
     script.src = "https://crossly-previous-buzzard.pgsdemo.com/reviews-widget.js";
     script.async = true;
-    document.body.appendChild(script);
-
+    
     script.onload = () => {
-      // @ts-ignore
-      window.initWidget({
-        baseUrl: 'https://crossly-previous-buzzard.pgsdemo.com/',
-        entityId: '8986600075955733488'
-      });
+      setIsLoaded(true);
     };
+
+    document.body.appendChild(script);
 
     return () => {
       document.body.removeChild(script);
     };
   }, []);
 
+  useEffect(() => {
+    if (isLoaded && window.initWidget) {
+      window.initWidget({
+        baseUrl: 'https://crossly-previous-buzzard.pgsdemo.com/',
+        entityId: '8986600075955733488'
+      });
+    }
+  }, [isLoaded]);
+
+  return isLoaded;
+};
+
+const Static: Template<TemplateRenderProps> = ({
+  relativePrefixToRoot,
+  path,
+  document,
+}) => {
+  const { _site } = document;
+  const isWidgetLoaded = useReviewsWidget();
+
   return (
-    <>
-      <div className="review-carousel">
-        <button className="arrow-button" id="prev-button">&#8592;</button>
-        <div id="review-carousel-container" className="review-carousel-container"></div>
-        <button className="arrow-button" id="next-button">&#8594;</button>
-      </div>
-    </>
+    <div>
+      <h1>Reviews Widget Example</h1>
+      {isWidgetLoaded ? (
+        <div className="review-carousel">
+          <button className="arrow-button" id="prev-button">&#8592;</button>
+          <div id="review-carousel-container" className="review-carousel-container"></div>
+          <button className="arrow-button" id="next-button">&#8594;</button>
+        </div>
+      ) : (
+        <p>Loading reviews widget...</p>
+      )}
+    </div>
   );
 };
 
 export default Static;
+
