@@ -1,331 +1,281 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
+    font-family: 'Arial', sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-.widget-container {
-    max-width: 750px;
-    margin: 20px auto;
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.rc-widget-container {
+    max-width: 750px !important;
+    margin: 20px auto !important;
+    background-color: #f5f5f5 !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
 }
 
-.show-more-btn {
-    color: blue; /* Blue text color */
-    text-decoration: underline; /* Underline */
-    cursor: pointer; /* Show pointer cursor */
+.rc-show-more-btn {
+    color: blue !important; /* Blue text color */
+    text-decoration: underline !important; /* Underline */
+    cursor: pointer !important; /* Show pointer cursor */
 }
 
-.show-more-btn:hover {
-    color: darkblue; /* Darker blue color on hover */
+.rc-show-more-btn:hover {
+    color: darkblue !important; /* Darker blue color on hover */
 }
 
-
-.header {
-    text-align: center;
-    margin-bottom: 20px;
-    width: 100%; /* Ensure the header takes full width */
-    order: -1; /* Make sure the header is above the review content regardless of HTML order */
+.rc-header {
+    text-align: center !important;
+    margin-bottom: 20px !important;
+    width: 100% !important; /* Ensure the header takes full width */
+    order: -1 !important; /* Make sure the header is above the review content regardless of HTML order */
 }
 
-.header h2 {
-    font-size: 24px; /* Adjust the font size as needed */
-    color: #333; /* Adjust the color as needed */
+.rc-header h2 {
+    font-size: 24px !important; /* Adjust the font size as needed */
+    color: #333 !important; /* Adjust the color as needed */
 }
 
-.header p {
-    font-size: 18px; /* Adjust the font size as needed */
-    color: #666; /* Adjust the color as needed */
-    margin: 8px 0;
+.rc-header p {
+    font-size: 18px !important; /* Adjust the font size as needed */
+    color: #666 !important; /* Adjust the color as needed */
+    margin: 8px 0 !important;
 }
 
-.review {
-    padding: 10px;
-    border: 1px solid #ddd;
-    overflow-y: auto; /* Enable scrolling for long reviews */
-    width: 300px;
-    height: 200px;
+.rc-review {
+    padding: 10px !important;
+    border: 1px solid #ddd !important;
+    overflow-y: auto !important; /* Enable scrolling for long reviews */
+    width: 300px !important;
+    height: 200px !important;
 }
 
-.review img {
-    width: 43px;
-    height: 43px;
+.rc-review img {
+    width: 43px !important;
+    height: 43px !important;
 }
 
-.rating {
-    color: #ffcc00; /* Yellow color */
-    font-size: 1.2em; /* Adjust the size as needed */
+.rc-rating {
+    color: #ffcc00 !important; /* Yellow color */
+    font-size: 1.2em !important; /* Adjust the size as needed */
 }
 
-.rating::before {
-    content: '\2605'; /* Unicode character for a solid star */
-    margin-right: 2px; /* Adjust spacing */
+.rc-rating::before {
+    content: '\2605' !important; /* Unicode character for a solid star */
+    margin-right: 2px !important; /* Adjust spacing */
 }
 
-.rating::after {
-    content: '\2605'; /* Unicode character for a solid star */
-    margin-left: 2px; /* Adjust spacing */
-    color: #ddd; /* Color for empty stars (gray in this example) */
+.rc-rating::after {
+    content: '\2605' !important; /* Unicode character for a solid star */
+    margin-left: 2px !important; /* Adjust spacing */
+    color: #ddd !important; /* Color for empty stars (gray in this example) */
 }
 
-.star {
-    color: #ffcc00; /* Yellow color */
-    font-size: 24px; /* Adjust the size as needed */
-    margin-right: 2px; /* Adjust the spacing between full stars */
+.rc-star {
+    color: #ffcc00 !important; /* Yellow color */
+    font-size: 24px !important; /* Adjust the size as needed */
+    margin-right: 2px !important; /* Adjust the spacing between full stars */
 }
 
-.star.half {
-    position: relative;
-    display: inline-block;
-    margin-right: 2px; /* Adjust the spacing between half stars */
-    overflow: hidden;
+.rc-star.half {
+    position: relative !important;
+    display: inline-block !important;
+    margin-right: 2px !important; /* Adjust the spacing between half stars */
+    overflow: hidden !important;
 }
 
-.star.half:before {
-    content: '\00BD'; /* Unicode character for half star */
-    position: absolute;
-    left: 0;
+.rc-star.half:before {
+    content: '\00BD' !important; /* Unicode character for half star */
+    position: absolute !important;
+    left: 0 !important;
 }
 
-.pagination-button.active {
-    background-color: #007bff;
-    color: #fff;
+.rc-pagination-button.active {
+    background-color: #007bff !important;
+    color: #fff !important;
 }
 
-.button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.rc-button {
+    background-color: #007bff !important;
+    color: #fff !important;
+    padding: 15px 20px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
 }
 
-.button:hover {
-    background-color: #0056b3;
+.rc-button:hover {
+    background-color: #0056b3 !important;
 }
 
-.review-details {
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap; /* Allow content to wrap within the container */
+.rc-review-details {
+    display: flex !important;
+    align-items: flex-start !important;
+    flex-wrap: wrap !important; /* Allow content to wrap within the container */
 }
 
-.review-details p {
-    margin: 2px; /* Set default margin for review details */
+.rc-review-details p {
+    margin: 2px !important; /* Set default margin for review details */
 }
 
-.review-details p strong {
-    display: block;
-    margin-bottom: 2px; /* Margin between author and date */
+.rc-review-details p strong {
+    display: block !important;
+    margin-bottom: 2px !important; /* Margin between author and date */
 }
 
-.review-details p:nth-of-type(3) {
-    margin-bottom: 5px; /* Margin for the rating */
+.rc-review-details p:nth-of-type(3) {
+    margin-bottom: 5px !important; /* Margin for the rating */
 }
 
-.review-details p strong + p {
-    margin-bottom: 2px; /* Margin for the review content */
+.rc-review-details p strong + p {
+    margin-bottom: 2px !important; /* Margin for the review content */
 }
 
-.details-right {
-    flex-grow: 1; /* Allow the content to grow and take remaining space */
-    max-width: 220px; /* Set a minimum width for the details-right container */
-    text-align: left; /* Align text to the left */
+.rc-details-right {
+    flex-grow: 1 !important; /* Allow the content to grow and take remaining space */
+    max-width: 220px !important; /* Set a minimum width for the details-right container */
+    text-align: left !important; /* Align text to the left */
 }
 
-.publisher-icon {
-    margin-right: 10px;
-    flex-shrink: 0; /* Prevent the icon from shrinking */
+.rc-publisher-icon {
+    margin-right: 10px !important;
+    flex-shrink: 0 !important; /* Prevent the icon from shrinking */
 }
 
-.center-button {
-    text-align: center;
+.rc-center-button {
+    text-align: center !important;
 }
 
-.comment-section {
-    margin-bottom: 30px;
-    padding: 15px;
-    padding-left: 100px;
-    margin-top: -21px;
-    border: 1px solid #ddd;
-    /* border-radius: 8px; */
+.rc-comment-section {
+    margin-bottom: 30px !important;
+    padding: 15px !important;
+    padding-left: 100px !important;
+    margin-top: -21px !important;
+    border: 1px solid #ddd !important;
+    /* border-radius: 8px !important; */
 }
 
-.pagination-container {
-    margin-top: 20px;
-    text-align: center;
-    margin-bottom: 20px;
+.rc-pagination-container {
+    margin-top: 20px !important;
+    text-align: center !important;
+    margin-bottom: 20px !important;
 }
 
-.pagination-button {
-    margin: 0 5px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    border-radius: 5px;
+.rc-pagination-button {
+    margin: 0 5px !important;
+    cursor: pointer !important;
+    border: 1px solid #ccc !important;
+    padding: 5px 10px !important;
+    border-radius: 5px !important;
 }
 
-.recommended-text {
-    color: green;
-    font-weight: bold;
+.rc-recommended-text {
+    color: green !important;
+    font-weight: bold !important;
 }
 
-.not-recommended-text {
-    color: red;
-    font-weight: bold;
+.rc-not-recommended-text {
+    color: red !important;
+    font-weight: bold !important;
 }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999; /* Set a higher z-index value */
+.rc-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 99999 !important; /* Set a higher z-index value */
 }
 
-.customer-form {
-    position: relative;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 500px; /* Adjust the maximum width as needed */
-    margin: auto; /* Center the form horizontally */
-    text-align: center; /* Center the form content */
-    color: black;
-    z-index: 9999; /* Set a high z-index value */
+.rc-customer-form {
+    position: relative !important;
+    background-color: #fff !important;
+    padding: 20px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) !important;
+    max-width: 500px !important; /* Adjust the maximum width as needed */
+    margin: auto !important; /* Center the form horizontally */
+    text-align: center !important; /* Center the form content */
+    color: black !important;
+    z-index: 9999 !important; /* Set a high z-index value */
 }
 
-button.pagination-button {
-    color: black;
+button.rc-pagination-button {
+    color: black !important;
 }
 
-.customer-form label {
-    display: block;
-    margin-bottom: 8px;
+.rc-customer-form label {
+    display: block !important;
+    margin-bottom: 8px !important;
 }
 
-.customer-form input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
+.rc-customer-form input {
+    width: 100% !important;
+    padding: 8px !important;
+    margin-bottom: 16px !important;
+    box-sizing: border-box !important;
 }
 
-.customer-form button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.rc-customer-form button {
+    background-color: #007bff !important;
+    color: #fff !important;
+    padding: 10px 15px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
 }
 
-.customer-form button:hover {
-    background-color: #0056b3;
+.rc-customer-form button:hover {
+    background-color: #0056b3 !important;
 }
 
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-    color: #333;
+.rc-close-button {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    cursor: pointer !important;
+    font-size: 20px !important;
+    color: #333 !important;
 }
 
-.center-button {
-    text-align: center;
-    margin-bottom: 20px;
+.rc-center-button {
+    text-align: center !important;
+    margin-bottom: 20px !important;
 }
 
-.add-customer-text {
-    color: #888; /* Light grey color */
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
+.rc-add-customer-text {
+    color: #888 !important; /* Light grey color */
+    font-weight: bold !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
 }
 
-.add-customer-text:hover {
-    color: #666; /* Darker grey color on hover */
+.rc-add-customer-text:hover {
+    color: #666 !important; /* Darker grey color on hover */
 }
 
-.hero-rating {
-    font-size: 2em;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
+.rc-hero-rating {
+    font-size: 2em !important;
+    font-weight: bold !important;
+    color: #333 !important;
+    margin: 0 !important;
 }
 
-.disclaimer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px; /* Adjust margin as needed */
+.rc-disclaimer {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 16px !important; /* Adjust margin as needed */
 }
 
-#agree-checkbox {
-    margin-right: 20px
+#rc-agree-checkbox {
+    margin-right: 20px !important;
 }
 
-.review-carousel-container {
-    text-align: center;
-    height: 200px; /* Set the fixed height of the review container */
-    width: 300px;
-    position: relative; /* Ensure buttons are positioned relative to this container */
-    overflow: hidden;
-}
-
-
-.review-carousel-container:hover .arrow-button {
-    opacity: 1; /* Show arrows on hover */
-}
-
-.pagination-button {
-    /* Styling for the arrow buttons */
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 24px; /* Adjust the size as needed */
-}
-
-#prev-button {
-    left: 10px;
-    color: black;
-}
-
-#next-button {
-    right: 10px;
-    color: black;
-}
-
-.arrow-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    position: absolute;
-    top: 38%;
-    transform: translateY(-50%);
-    opacity: 1; /* Hide arrows by default */
-    transition: opacity 0.3s; /* Smooth transition */
-    z-index: 10; /* Ensure the arrows are on top of other elements */
-}
-
-.review-carousel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 200px;
-    position: relative;
-    font-size: 13px;
+.rc-review-carousel-container {
+    text-align: center !important;
+    height: 200px !important;
 }
