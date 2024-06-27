@@ -8,13 +8,28 @@
         <div id="review-carousel-container" class="review-carousel-container"></div>
         <button class="arrow-button" id="next-button">&#8594;</button>
     </div>
-   
+    
     <script src="https://crossly-previous-buzzard.pgsdemo.com/reviews-widget.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Function to parse URL parameters
+            function getParameterByName(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, '\\$&');
+                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }
+
+            // Get entityId parameter from URL
+            var entityId = getParameterByName('entityId');
+
+            // Initialize widget with entityId
             initWidget({
                 baseUrl: 'https://crossly-previous-buzzard.pgsdemo.com/',
-                entityId: '8986600075955733488'
+                entityId: entityId
             });
         });
     </script>
